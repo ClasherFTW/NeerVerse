@@ -6,6 +6,7 @@
     <title>Welcome to Neerverse</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.64/build/spline-viewer.js"></script>
+    <script type="module" src="firebase-auth.js"></script>
     <style>
         * {
             margin: 0;
@@ -388,6 +389,25 @@
             font-size: 12px;
         }
 
+        /* Error and Success Message Styles */
+        .error-message, .success-message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message {
+            background: #ff4444;
+            color: white;
+        }
+
+        .success-message {
+            background: #00aa44;
+            color: white;
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .spline-container {
@@ -485,7 +505,6 @@
                 </div>
             </div>
 
-
             <div class="spline-container">
                 <spline-viewer url="https://prod.spline.design/wcYWE2xXU5oJTMKQ/scene.splinecode"></spline-viewer>
             </div>
@@ -533,12 +552,12 @@
 
                         <div class="form-group">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-input" placeholder="••••••••" required>
+                            <input type="password" id="signin-password" class="form-input" placeholder="••••••••" required>
                         </div>
 
                         <button type="submit" class="primary-btn">Sign In</button>
                     </form>
-
+                </div>
 
                 <!-- Sign Up Form -->
                 <div id="signup-form" class="auth-form">
@@ -554,17 +573,17 @@
                     <form onsubmit="handleSignUp(event)">
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
-                            <input type="text" class="form-input" placeholder="Enter your full name" required>
+                            <input type="text" id="signup-name" class="form-input" placeholder="Enter your full name" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-input" placeholder="Enter your email" required>
+                            <input type="email" id="signup-email" class="form-input" placeholder="Enter your email" required>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-input" placeholder="Create a password" required>
+                            <input type="password" id="signup-password" class="form-input" placeholder="Create a password" required>
                         </div>
 
                         <div class="checkbox-group">
@@ -619,51 +638,80 @@
             }
         }
 
-        // Form handlers
-        function handleSignIn(event) {
+        async function handleSignIn(event) {
             event.preventDefault();
-            const formData = new FormData(event.target);
-            console.log('Sign in attempt:', Object.fromEntries(formData));
             
-            // Simulate login process
+            const email = document.getElementById('signin-input').value;
+            const password = document.getElementById('signin-password').value;
             const btn = event.target.querySelector('.primary-btn');
-            btn.textContent = 'Signing In...';
-            btn.disabled = true;
+            const originalText = btn.textContent;
             
-            setTimeout(() => {
-                alert('Sign in functionality would be implemented here. Redirecting to dashboard...');
-                // Redirect to main app: window.location.href = '/dashboard';
-                btn.textContent = 'Sign In';
-                btn.disabled = false;
-            }, 2000);
+            // Show loading state
+            window.firebaseAuth.setButtonLoading(btn, true, originalText);
+            
+            try {
+                const result = await window.firebaseAuth.signInWithEmail(email, password);
+                
+                if (result.success) {
+                    window.firebaseAuth.showSuccess('Sign in successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    window.firebaseAuth.showError(result.error);
+                    window.firebaseAuth.setButtonLoading(btn, false, originalText);
+                }
+            } catch (error) {
+                window.firebaseAuth.showError('An unexpected error occurred. Please try again.');
+                window.firebaseAuth.setButtonLoading(btn, false, originalText);
+            }
         }
 
-        function handleSignUp(event) {
+        async function handleSignUp(event) {
             event.preventDefault();
-            const formData = new FormData(event.target);
-            console.log('Sign up attempt:', Object.fromEntries(formData));
             
+            const fullName = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
             const btn = event.target.querySelector('.primary-btn');
-            btn.textContent = 'Creating Account...';
-            btn.disabled = true;
+            const originalText = btn.textContent;
             
-            setTimeout(() => {
-                alert('Account creation functionality would be implemented here. Welcome to Neerverse!');
-                btn.textContent = 'Create Account';
-                btn.disabled = false;
-            }, 2000);
+            // Show loading state
+            window.firebaseAuth.setButtonLoading(btn, true, originalText);
+            
+            try {
+                const result = await window.firebaseAuth.signUpWithEmail(email, password, fullName);
+                
+                if (result.success) {
+                    window.firebaseAuth.showSuccess('Account created successfully! Welcome to Neerverse!');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    window.firebaseAuth.showError(result.error);
+                    window.firebaseAuth.setButtonLoading(btn, false, originalText);
+                }
+            } catch (error) {
+                window.firebaseAuth.showError('An unexpected error occurred. Please try again.');
+                window.firebaseAuth.setButtonLoading(btn, false, originalText);
+            }
         }
 
-        function handleGoogleLogin() {
-            console.log('Google login initiated');
-            alert('Google OAuth integration would be implemented here.');
-            // Implement Google OAuth: window.location.href = '/auth/google';
-        }
-
-        function handleDemoLogin() {
-            console.log('Demo login initiated');
-            alert('Logging in with demo account. Redirecting to dashboard...');
-            // Redirect to demo dashboard: window.location.href = '/demo';
+        async function handleGoogleLogin() {
+            try {
+                const result = await window.firebaseAuth.signInWithGoogle();
+                
+                if (result.success) {
+                    window.firebaseAuth.showSuccess('Google sign in successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    window.firebaseAuth.showError(result.error);
+                }
+            } catch (error) {
+                window.firebaseAuth.showError('Google sign in failed. Please try again.');
+            }
         }
 
         // Add some interactive feedback
@@ -675,6 +723,14 @@
             input.addEventListener('blur', function() {
                 this.parentElement.style.transform = 'translateY(0)';
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedUser = window.firebaseAuth?.getStoredUser();
+            if (storedUser) {
+                // User is already signed in, redirect to main page
+                window.location.href = 'index.html';
+            }
         });
     </script>
 </body>
