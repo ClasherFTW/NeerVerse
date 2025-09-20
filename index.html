@@ -8,8 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Added Firebase auth script import -->
+    <script type="module" src="firebase-auth.js"></script>
 </head>
-<body>
+<body class="font-sans">
     <!-- Loading overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
@@ -57,9 +59,10 @@
                         </button>
                     </div>
                     <div class="auth-group">
-                        <a href="Neerverse_login.html" class="btn btn-text">Sign in</a>
-
-                        <a href="#getstarted" class="btn btn-primary">Get started</a>
+                        <!-- Updated auth buttons to handle signed in/out states -->
+                        <a href="neerverse_login.html" class="btn btn-text" id="auth-signin-btn">Sign in</a>
+                        <a href="#getstarted" class="btn btn-primary" id="auth-primary-btn">Get started</a>
+                        <button class="btn btn-text" id="auth-signout-btn" onclick="handleSignOut()" style="display: none;">Sign out</button>
                     </div>
                 </div>
             </div>
@@ -223,8 +226,6 @@
         </div>
     </section>
 
-
-
     <!-- Spline viewer script -->
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.61/build/spline-viewer.js"></script>
     <script src="script.js"></script>
@@ -232,7 +233,64 @@
   <script src="https://cdn.tailwindcss.com"></script>
     <title>Community Disaster Feed</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+    
+    <!-- Added Firebase auth integration script -->
+    <script>
+        // Handle sign out functionality
+        async function handleSignOut() {
+            const result = await window.firebaseAuth.signOut();
+            if (result.success) {
+                // Redirect to login page
+                window.location.href = 'neerverse_login.html';
+            }
+        }
+
+        // Update UI based on auth state when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for Firebase auth to initialize
+            setTimeout(() => {
+                const user = window.firebaseAuth?.getStoredUser();
+                updateAuthUI(user);
+            }, 1000);
+        });
+
+        function updateAuthUI(user) {
+            const signInBtn = document.getElementById('auth-signin-btn');
+            const primaryBtn = document.getElementById('auth-primary-btn');
+            const signOutBtn = document.getElementById('auth-signout-btn');
+
+            if (user) {
+                // User is signed in
+                signInBtn.textContent = user.displayName || user.email.split('@')[0];
+                signInBtn.href = '#profile';
+                
+                primaryBtn.textContent = 'Dashboard';
+                primaryBtn.href = '#dashboard';
+                
+                signOutBtn.style.display = 'inline-block';
+            } else {
+                // User is signed out
+                signInBtn.textContent = 'Sign in';
+                signInBtn.href = 'neerverse_login.html';
+                
+                primaryBtn.textContent = 'Get started';
+                primaryBtn.href = '#getstarted';
+                
+                signOutBtn.style.display = 'none';
+            }
+        }
+
+        // Listen for auth state changes
+        if (window.firebaseAuth) {
+            const originalHandleAuthStateChange = window.firebaseAuth.handleAuthStateChange;
+            window.firebaseAuth.handleAuthStateChange = function(user) {
+                originalHandleAuthStateChange.call(this, user);
+                updateAuthUI(user);
+            };
+        }
+    </script>
+
+    <style>
     :root {
       --accent: #4285f4;
       --muted: rgba(255,255,255,0.6);
