@@ -42,8 +42,6 @@
                     <li><a href="#Maps" class="nav-link">Maps</a></li>
                     <li><a href="#Social" class="nav-link">Social Media</a></li>
                   </ul>
-
-
                 </nav>
 
                 <div class="header-actions">
@@ -124,12 +122,107 @@
                 💬
             </button>
         </aside>
-
-
     </div>
+
     <div class="map">
         Space for the Google Earth Engine Map
     </div>
+
+    <!-- Crowdsourced Hazard Reporting Section -->
+    <section class="hazard-reporting-section" role="region" aria-label="Hazard Reporting Features">
+        <div class="hazard-reporting-container">
+            <header class="hazard-reporting-header">
+                <h2 class="hazard-reporting-title">Crowdsourced Hazard Reporting</h2>
+                <p class="hazard-reporting-subtitle">
+                    Empower communities to report hazards in real-time with our intuitive reporting system
+                </p>
+            </header>
+
+            <div class="hazard-reporting-content">
+                <div class="features-section">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📍</div>
+                            <div class="feature-content">
+                                <h3>Geolocation Tagging</h3>
+                                <p>Automatically capture precise location data for every report with GPS integration</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">📷</div>
+                            <div class="feature-content">
+                                <h3>Multimedia Evidence</h3>
+                                <p>Upload photos and videos to provide visual context for hazard reports</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-content">
+                                <h3>Real-time Processing</h3>
+                                <p>Reports are processed instantly and verified through AI-powered analysis</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">👥</div>
+                            <div class="feature-content">
+                                <h3>Community Verification</h3>
+                                <p>Multiple reports from the same area are cross-verified for accuracy</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="start-reporting-btn">
+                        <button class="btn btn-large btn-reporting" id="startReportingBtn">
+                            Start Reporting
+                        </button>
+                    </div>
+                </div>
+
+                <div class="report-card-section">
+                    <div class="report-card">
+                        <div class="report-card-header">
+                            <div class="report-card-title">Report Interface</div>
+                        </div>
+
+                        <div class="report-field">
+                            <div class="report-field-label">Hazard Type</div>
+                            <div class="report-field-value">Flood Warning</div>
+                        </div>
+
+                        <div class="report-field">
+                            <div class="report-field-label">Location</div>
+                            <div class="report-field-value">Downtown District, Sector 7</div>
+                        </div>
+
+                        <div class="report-field">
+                            <div class="report-field-label">Severity</div>
+                            <div class="report-field-value severity-high">
+                                <span class="severity-indicator"></span>
+                                High Risk
+                            </div>
+                        </div>
+
+                        <div class="media-options">
+                            <button class="media-btn">
+                                📷 Photo
+                            </button>
+                            <button class="media-btn">
+                                🎥 Video
+                            </button>
+                            <button class="media-btn">
+                                📍 Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
     <!-- Spline viewer script -->
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.61/build/spline-viewer.js"></script>
