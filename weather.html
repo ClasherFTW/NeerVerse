@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeerVerse — Weather Dashboard</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+:root{
+  --bg:#0d0d0d;
+  --panel: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.1);
+  --accent: #1e90ff;
+  --muted: rgba(255,255,255,0.6);
+}
+
+/* Global */
+body { margin:0; font-family: 'Google Sans','Roboto Mono',sans-serif; background: var(--bg); color:white; padding:24px;}
+h1,h2,h3,h4,h5,h6 {margin:0;}
+
+/* Navbar */
+header.header {
+  position: fixed; top:0; width:100%; z-index:50;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  padding:16px 24px;
+}
+.header .container { display:flex; justify-content:space-between; align-items:center; max-width:1200px; margin:0 auto; }
+.header .brand { display:flex; align-items:center; gap:12px; }
+.header .brand-logo { width:40px; height:40px; border-radius:8px; background: var(--accent); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:18px; }
+.header nav ul { display:flex; gap:24px; list-style:none; }
+.header nav ul li a { text-decoration:none; color:white; font-weight:500; transition: color 0.3s; }
+.header nav ul li a:hover { color: var(--accent); }
+.header .actions a { text-decoration:none; font-weight:500; margin-left:12px; transition: all 0.2s; }
+.header .actions .signin:hover { color: var(--accent); }
+.header .actions .getstarted { background: var(--accent); padding:6px 12px; border-radius:6px; color:white; }
+.header .actions .getstarted:hover { background: #0f75d8; }
+
+/* Hero */
+.hero { text-align:center; margin-top:100px; margin-bottom:40px; }
+.hero h1 { font-size: clamp(2rem,6vw,3rem); font-weight:700; background: linear-gradient(135deg,#fff,#ccc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p { color: var(--muted); max-width:600px; margin:0 auto; line-height:1.6; }
+
+/* Grid & Cards */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:16px;
+}
+@media(max-width:600px){ .grid{ grid-template-columns:1fr; } }
+
+.card {
+  background: var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(20px);
+  transition: transform .3s ease, box-shadow .3s ease, opacity .5s ease;
+  position:relative;
+}
+.card.visible { opacity:1; transform:translateY(0);}
+.card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,0.5); }
+
+.card-header { padding:12px; display:flex; align-items:center; gap:10px; position:relative; justify-content:space-between; }
+.chip { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:white; }
+.chip.precip { background: linear-gradient(135deg,#ffe29f,#ff7b7b); color:#071012; }
+.chip.imerg  { background: linear-gradient(135deg,#3a5cff,#00b4ff); }
+.chip.temp   { background: linear-gradient(135deg,#4ecdc4,#5567ff); }
+.chip.smap   { background: linear-gradient(135deg,#c6ffdd,#7bd389); color:#072014; }
+.card-title { font-weight:600; font-size:14px; }
+.card-sub { font-size:12px; color: var(--muted); margin-top:2px; }
+
+/* Overlay controls on card */
+.overlay-controls { display:flex; gap:8px; }
+.overlay-controls .action {
+  background:rgba(0,0,0,0.45);
+  color:#fff;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;
+  font-size:12px;
+}
+
+/* Iframe */
+.iframe-wrap { flex:1; margin:10px 0; border-radius:10px; overflow:hidden; border:1px solid var(--border); }
+.iframe-inner { width:100%; height:100%; border:0; transition: transform .2s ease; }
+.iframe-wrap:hover .iframe-inner { transform: scale(1.02); }
+
+/* Modal fullscreen */
+.modal {
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(3,8,15,0.7);backdrop-filter: blur(6px);z-index:60;opacity:0;pointer-events:none;
+  transition:opacity .2s;
+}
+.modal.show { opacity:1; pointer-events:auto; }
+.modal-content {
+  width:95%;max-width:1300px;height:85vh;border-radius:12px;background:var(--bg);
+  border:1px solid rgba(255,255,255,0.05);overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 30px 80px rgba(2,8,20,0.75);
+}
+.modal-top {
+  display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.modal-iframe { flex:1; border:0; width:100%; height:100%; display:block; }
+
+/* Footer */
+footer { margin-top:24px; text-align:center; color: var(--muted); font-size:12px; }
+footer a { color: var(--accent); text-decoration:none; transition: color 0.2s; }
+footer a:hover { color:#0f75d8; }
+
+/* Grid & Cards - fixed 2x2 layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* two columns */
+  grid-template-rows: repeat(2, 1fr);    /* two rows */
+  gap: 16px;
+}
+@media(max-width:640px){
+  .grid { 
+    grid-template-columns: 1fr; /* single column on small screens */
+    grid-template-rows: auto;
+  }
+}
+
+/* Card remains the same */
+.card {
+  background: var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(20px);
+  transition: transform .3s ease, box-shadow .3s ease, opacity .5s ease;
+  position:relative;
+}
+.card.visible { opacity:1; transform:translateY(0);}
+.card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,0.5); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <a href="#" class="brand">
+      <div class="brand-logo">N</div>
+      <span>NeerVerse</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#current">Current Weather</a></li>
+        <li><a href="#forecast">Forecast</a></li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+    </nav>
+    <div class="actions">
+      <a href="login.html" class="signin">Sign in</a>
+      <a href="#getstarted" class="getstarted">Get started</a>
+    </div>
+  </div>
+</header>
+
+<main class="pt-28 max-w-7xl mx-auto">
+<section class="hero fade-up" id="home">
+  <h1>NeerVerse Weather Dashboard</h1>
+  <p>Real-time weather updates, forecasts, and community reports — all in a sleek dark interface.</p>
+</section>
+
+<section class="grid fade-up" id="current">
+  <!-- Card: CHIRPS -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/chirps" data-title="CHIRPS — Precipitation">
+    <div class="card-header">
+      <div>
+        <div class="chip precip">CH</div>
+        <div class="card-title">CHIRPS — Precipitation</div>
+        <div class="card-sub">Total precipitation (mm) — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/chirps"></iframe>
+    </div>
+  </article>
+
+  <!-- Card: IMERG -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/imerg" data-title="IMERG — Max Rainfall">
+    <div class="card-header">
+      <div>
+        <div class="chip imerg">IM</div>
+        <div class="card-title">IMERG — Max Rainfall</div>
+        <div class="card-sub">Peak intensity (mm/hr) — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/imerg"></iframe>
+    </div>
+  </article>
+
+  <!-- Card: ERA5 -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/era5" data-title="ERA5 — Temperature">
+    <div class="card-header">
+      <div>
+        <div class="chip temp">T</div>
+        <div class="card-title">ERA5 — Temperature</div>
+        <div class="card-sub">2m temperature (°C) — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/era5"></iframe>
+    </div>
+  </article>
+
+  <!-- Card: SMAP -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/smap" data-title="SMAP — Soil Moisture">
+    <div class="card-header">
+      <div>
+        <div class="chip smap">SM</div>
+        <div class="card-title">SMAP — Soil Moisture</div>
+        <div class="card-sub">Mean soil moisture — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/smap"></iframe>
+    </div>
+  </article>
+</section>
+</main>
+
+<!-- Fullscreen modal -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <div class="modal-top">
+      <div id="modalTitle" style="font-weight:700">Map</div>
+      <div style="display:flex;gap:8px">
+        <a id="openNewTab" class="btn" href="#" target="_blank" rel="noopener">Open new tab ↗</a>
+        <button id="closeModal" class="btn">Close ✕</button>
+      </div>
+    </div>
+    <iframe id="modalFrame" class="modal-iframe" src="" title="Expanded map view"></iframe>
+  </div>
+</div>
+
+<footer>
+  Maps powered by <a href="https://earthengine.google.com" target="_blank" class="small">Google Earth Engine</a>
+</footer>
+
+<script>
+// Lazy load iframes
+document.querySelectorAll('.lazy-iframe').forEach(iframe=>{
+  iframe.src = iframe.dataset.src;
+});
+
+// IntersectionObserver for fade-up animation
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.card, .fade-up').forEach(el=>observer.observe(el));
+
+// Modal functionality
+(function(){
+  const modal = document.getElementById('modal');
+  const modalFrame = document.getElementById('modalFrame');
+  const modalTitle = document.getElementById('modalTitle');
+  const openNewTabLink = document.getElementById('openNewTab');
+  const closeBtn = document.getElementById('closeModal');
+
+  document.addEventListener('click', e=>{
+    const action = e.target.closest('[data-action]');
+    if(!action) return;
+    const card = action.closest('.card');
+    const src = card?.dataset?.src;
+    const title = card?.dataset?.title || 'Map';
+    if(action.dataset.action==='open'){
+      modalFrame.src = src;
+      modalTitle.textContent = title;
+      openNewTabLink.href = src;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+      closeBtn.focus();
+    }
+    else if(action.dataset.action==='new'){
+      window.open(src,'_blank','noopener');
+    }
+  });
+
+  closeBtn.addEventListener('click', ()=>{ 
+    modal.classList.remove('show'); 
+    modal.setAttribute('aria-hidden','true'); 
+    modalFrame.src='';
+  });
+  modal.addEventListener('click', ev=>{
+    if(ev.target===modal){
+      modal.classList.remove('show'); 
+      modal.setAttribute('aria-hidden','true'); 
+      modalFrame.src='';
+    }
+  });
+  window.addEventListener('keydown', ev=>{
+    if(ev.key==='Escape' && modal.classList.contains('show')){
+      modal.classList.remove('show'); 
+      modal.setAttribute('aria-hidden','true'); 
+      modalFrame.src='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
