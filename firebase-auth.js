@@ -105,7 +105,7 @@ class FirebaseAuthManager {
 
     if (signInBtn && getStartedBtn) {
       signInBtn.textContent = "Sign in"
-      signInBtn.href = "neerverse_login.html"
+      signInBtn.href = "login.html"
 
       getStartedBtn.textContent = "Get started"
       getStartedBtn.href = "#getstarted"
