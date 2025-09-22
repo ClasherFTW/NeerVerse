@@ -67,15 +67,19 @@ class NeerVerseApp {
   }
 
   handleNavigation(event) {
-    event.preventDefault()
     const target = event.target.getAttribute("href")
-    console.log(`Navigating to: ${target}`)
 
-    // Add active state animation
-    event.target.style.color = "#4285f4"
-    setTimeout(() => {
-      event.target.style.color = ""
-    }, 200)
+    // Only prevent default for anchor links (starting with #)
+    if (target && target.startsWith("#")) {
+      event.preventDefault()
+      console.log(`Navigating to section: ${target}`)
+
+      // Add active state animation
+      event.target.style.color = "#4285f4"
+      setTimeout(() => {
+        event.target.style.color = ""
+      }, 200)
+    }
   }
 
   handleGetStarted(event) {
