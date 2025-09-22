@@ -255,8 +255,8 @@ spline-viewer {
   font-size: 12px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 32px;
   backdrop-filter: blur(8px);
+  margin-top: 40px;
 }
 
 .status-icon {
@@ -269,6 +269,7 @@ spline-viewer {
   justify-content: center;
   font-size: 10px;
   color: #000;
+  
 }
 
 /* Hero section */
