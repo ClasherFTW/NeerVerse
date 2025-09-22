@@ -3,12 +3,22 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NeerVerse — Weather Dashboard</title>
+<title data-translate="weather.title">NeerVerse — Weather Dashboard</title>
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Added translation system script -->
+<script src="js/translations.js"></script>
+<script src="js/dynamic-translations.js"></script>
+
+<!-- Added chatbot scripts -->
+<script src="js/chatbot-knowledge.js"></script>
+<script src="js/chatbot.js"></script>
+<script src="js/chatbot-integration.js"></script>
+<link rel="stylesheet" href="css/chatbot.css">
 
 <!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -164,23 +174,23 @@ footer a:hover { color:#0f75d8; }
     </a>
     <nav>
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#current">Current Weather</a></li>
-        <li><a href="#forecast">Forecast</a></li>
-        <li><a href="#community">Community</a></li>
+        <li><a href="index.html" data-translate="nav.home">Home</a></li>
+        <li><a href="#current" data-translate="weather.current">Current Weather</a></li>
+        <li><a href="#forecast" data-translate="weather.forecast">Forecast</a></li>
+        <li><a href="#community" data-translate="weather.community">Community</a></li>
       </ul>
     </nav>
     <div class="actions">
-      <a href="login.html" class="signin">Sign in</a>
-      <a href="#getstarted" class="getstarted">Get started</a>
+      <a href="login.html" class="signin" data-translate="nav.signin">Sign in</a>
+      <a href="#getstarted" class="getstarted" data-translate="nav.getstarted">Get started</a>
     </div>
   </div>
 </header>
 
 <main class="pt-28 max-w-7xl mx-auto">
 <section class="hero fade-up" id="home">
-  <h1>NeerVerse Weather Dashboard</h1>
-  <p>Real-time weather updates, forecasts, and community reports — all in a sleek dark interface.</p>
+  <h1 data-translate="weather.title">NeerVerse Weather Dashboard</h1>
+  <p data-translate="weather.subtitle">Real-time weather updates, forecasts, and community reports — all in a sleek dark interface.</p>
 </section>
 
 <section class="grid fade-up" id="current">
@@ -189,12 +199,12 @@ footer a:hover { color:#0f75d8; }
     <div class="card-header">
       <div>
         <div class="chip precip">CH</div>
-        <div class="card-title">CHIRPS — Precipitation</div>
-        <div class="card-sub">Total precipitation (mm) — Monsoon 2024</div>
+        <div class="card-title" data-translate="weather.chirps">CHIRPS — Precipitation</div>
+        <div class="card-sub" data-translate="weather.chirps.desc">Total precipitation (mm) — Monsoon 2024</div>
       </div>
       <div class="overlay-controls map-actions">
-        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
-        <button class="action" data-action="new" title="Open in new tab">↗</button>
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
       </div>
     </div>
     <div class="iframe-wrap">
@@ -207,12 +217,12 @@ footer a:hover { color:#0f75d8; }
     <div class="card-header">
       <div>
         <div class="chip imerg">IM</div>
-        <div class="card-title">IMERG — Max Rainfall</div>
-        <div class="card-sub">Peak intensity (mm/hr) — Monsoon 2024</div>
+        <div class="card-title" data-translate="weather.imerg">IMERG — Max Rainfall</div>
+        <div class="card-sub" data-translate="weather.imerg.desc">Peak intensity (mm/hr) — Monsoon 2024</div>
       </div>
       <div class="overlay-controls map-actions">
-        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
-        <button class="action" data-action="new" title="Open in new tab">↗</button>
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
       </div>
     </div>
     <div class="iframe-wrap">
@@ -225,12 +235,12 @@ footer a:hover { color:#0f75d8; }
     <div class="card-header">
       <div>
         <div class="chip temp">T</div>
-        <div class="card-title">ERA5 — Temperature</div>
-        <div class="card-sub">2m temperature (°C) — Monsoon 2024</div>
+        <div class="card-title" data-translate="weather.era5">ERA5 — Temperature</div>
+        <div class="card-sub" data-translate="weather.era5.desc">2m temperature (°C) — Monsoon 2024</div>
       </div>
       <div class="overlay-controls map-actions">
-        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
-        <button class="action" data-action="new" title="Open in new tab">↗</button>
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
       </div>
     </div>
     <div class="iframe-wrap">
@@ -243,12 +253,12 @@ footer a:hover { color:#0f75d8; }
     <div class="card-header">
       <div>
         <div class="chip smap">SM</div>
-        <div class="card-title">SMAP — Soil Moisture</div>
-        <div class="card-sub">Mean soil moisture — Monsoon 2024</div>
+        <div class="card-title" data-translate="weather.smap">SMAP — Soil Moisture</div>
+        <div class="card-sub" data-translate="weather.smap.desc">Mean soil moisture — Monsoon 2024</div>
       </div>
       <div class="overlay-controls map-actions">
-        <button class="action" data-action="open" title="Open fullscreen">⤢</button>
-        <button class="action" data-action="new" title="Open in new tab">↗</button>
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
       </div>
     </div>
     <div class="iframe-wrap">
@@ -264,8 +274,8 @@ footer a:hover { color:#0f75d8; }
     <div class="modal-top">
       <div id="modalTitle" style="font-weight:700">Map</div>
       <div style="display:flex;gap:8px">
-        <a id="openNewTab" class="btn" href="#" target="_blank" rel="noopener">Open new tab ↗</a>
-        <button id="closeModal" class="btn">Close ✕</button>
+        <a id="openNewTab" class="btn" href="#" target="_blank" rel="noopener" data-translate="weather.newtab">Open new tab ↗</a>
+        <button id="closeModal" class="btn" data-translate="weather.close">Close ✕</button>
       </div>
     </div>
     <iframe id="modalFrame" class="modal-iframe" src="" title="Expanded map view"></iframe>
@@ -273,7 +283,7 @@ footer a:hover { color:#0f75d8; }
 </div>
 
 <footer>
-  Maps powered by <a href="https://earthengine.google.com" target="_blank" class="small">Google Earth Engine</a>
+  <span data-translate="weather.footer">Maps powered by</span> <a href="https://earthengine.google.com" target="_blank" class="small">Google Earth Engine</a>
 </footer>
 
 <script>
@@ -323,23 +333,37 @@ document.querySelectorAll('.card, .fade-up').forEach(el=>observer.observe(el));
   closeBtn.addEventListener('click', ()=>{ 
     modal.classList.remove('show'); 
     modal.setAttribute('aria-hidden','true'); 
-    modalFrame.src='';
+    modalFrame.src=''; 
   });
   modal.addEventListener('click', ev=>{
     if(ev.target===modal){
       modal.classList.remove('show'); 
       modal.setAttribute('aria-hidden','true'); 
-      modalFrame.src='';
+      modalFrame.src=''; 
     }
   });
   window.addEventListener('keydown', ev=>{
     if(ev.key==='Escape' && modal.classList.contains('show')){
       modal.classList.remove('show'); 
       modal.setAttribute('aria-hidden','true'); 
-      modalFrame.src='';
+      modalFrame.src=''; 
     }
   });
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const initTranslations = () => {
+    if (window.translationManager) {
+      // Translation manager is ready, update content
+      window.translationManager.updatePageContent();
+    } else {
+      // Retry after a short delay
+      setTimeout(initTranslations, 100);
+    }
+  };
+  
+  initTranslations();
+});
 </script>
 
 </body>
