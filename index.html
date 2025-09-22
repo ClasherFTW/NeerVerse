@@ -350,114 +350,555 @@
         });
     </script>
 
-  <!-- Header -->
-  <div class="text-center mb-12 mt-6 fade-up">
-    <!-- Added translation attribute -->
-    <h2 class="text-4xl font-bold mb-4" data-translate="feed.title">Community Disaster Feed</h2>
-    <!-- Added translation attribute -->
-    <p class="text-xl text-gray-400 max-w-2xl mx-auto" data-translate="feed.subtitle">Real-time updates from citizens, rescue teams, and authorities about ongoing disasters and hazards</p>
-  </div>
-
-  <div class="max-w-4xl mx-auto">
-
-    <!-- Trending badges -->
-    <div class="mb-8 p-4 rounded-lg border fade-up" style="background: var(--panel); border-color: var(--border);">
-      <div class="flex items-center mb-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5  mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-          <polyline points="16 7 22 7 22 13"></polyline>
-        </svg>
-        <!-- Added translation attribute -->
-        <h3 class="font-semibold text-sm text-white" data-translate="feed.trending">Trending Now</h3>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Cyclone (1247)</span>
-        <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Flood (892)</span>
-        <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-gray-500 text-gray-400"># Rescue (634)</span>
-        <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Emergency (567)</span>
-        <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-red-500 text-red-400"># OilSpill (234)</span>
-        <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Evacuation (189)</span>
-      </div>
+      <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --panel: #1a1a1a;
+            --border: #333;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+        
+        .fade-up {
+            animation: fadeUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .post-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .blue {
+            background:#05142d;
+        }
+        
+        .verification-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .verified-green {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        
+        .verified-yellow {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+        
+        .verified-red {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+        
+        .media-preview {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <div class="text-center mb-12 mt-6 fade-up">
+        <h2 class="text-4xl font-bold mb-4">Community Disaster Feed</h2>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto">Real-time updates from citizens, rescue teams, and authorities about ongoing disasters and hazards</p>
     </div>
 
-    <!-- Post input card -->
-    <div class="mb-8 fade-up">
-      <div class="flex flex-col gap-4 rounded-xl border py-6 p-4" style="background: var(--panel); border-color: var(--border);">
-        <!-- Added translation attribute -->
-        <textarea class="border p-2 rounded-md w-full bg-gray-900 text-white" rows="3" data-translate="feed.placeholder" placeholder="Report a hazard or share disaster updates..."></textarea>
-        <div class="flex justify-between items-center">
-          <div class="flex gap-2">
-            <!-- Added translation attributes -->
-            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1" data-translate="report.photo">📷 Photo</button>
-            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1" data-translate="report.video">🎥 Video</button>
-            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1" data-translate="report.locationbtn">📍 Location</button>
-          </div>
-          <!-- Added translation attribute -->
-          <button class=" text-white px-4 py-1 rounded-md flex items-center gap-1" data-translate="feed.send">Send ➤</button>
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Trending badges -->
+        <div class="mb-8 p-4 rounded-lg border fade-up" style="background: var(--panel); border-color: var(--border);">
+            <div class="flex items-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                    <polyline points="16 7 22 7 22 13"></polyline>
+                </svg>
+                <h3 class="font-semibold text-sm text-white">Trending Now</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Cyclone (1247)</span>
+                <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Flood (892)</span>
+                <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-gray-500 text-gray-400"># Rescue (634)</span>
+                <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Emergency (567)</span>
+                <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-red-500 text-red-400"># OilSpill (234)</span>
+                <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Evacuation (189)</span>
+            </div>
         </div>
-      </div>
+
+        <!-- Post input card -->
+        <div class="mb-8 fade-up">
+            <div class="flex flex-col gap-4 rounded-xl border py-6 p-4" style="background: var(--panel); border-color: var(--border);">
+                <textarea id="postText" class="border p-3 rounded-md w-full bg-gray-900 text-white resize-none" rows="3" placeholder="Report a hazard or share disaster updates..."></textarea>
+                
+                <!-- Media Preview -->
+                <div id="mediaPreview" class="hidden">
+                    <img id="imagePreview" class="media-preview hidden" />
+                    <video id="videoPreview" class="media-preview hidden" controls></video>
+                </div>
+                
+                <!-- Location Input -->
+                <div class="flex items-center gap-2">
+                    <span class="text-red-400 text-sm">* Location (Required):</span>
+                    <input id="locationInput" type="text" class="flex-1 border p-2 rounded-md bg-gray-900 text-white" placeholder="Enter location or use GPS" />
+                    <button id="gpsBtn" class="bg-blue-600 px-3 py-2 rounded-md">📍 GPS</button>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <label class="bg-gray-800 px-3 py-2 rounded-md flex items-center gap-1 cursor-pointer hover:bg-gray-700">
+                            📷 Photo
+                            <input type="file" id="photoInput" accept="image/*" class="hidden" />
+                        </label>
+                        <label class="bg-gray-800 px-3 py-2 rounded-md flex items-center gap-1 cursor-pointer hover:bg-gray-700">
+                            🎥 Video
+                            <input type="file" id="videoInput" accept="video/*" class="hidden" />
+                        </label>
+                    </div>
+                    <button id="sendBtn" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">Send ➤</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter buttons -->
+        <div class="flex items-center justify-between mb-6 fade-up">
+            <div class="flex gap-2">
+                <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">🕒 Latest</button>
+                <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">📈 Trending</button>
+                <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">📍 Nearby</button>
+            </div>
+            <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">🗺 Show Map</button>
+        </div>
+
+        <!-- Posts Container -->
+        <div id="postsContainer" class="fade-up">
+            <!-- Initial Posts -->
+            <div class="post-card py-6 mb-6 p-4 hover:shadow-lg transition-shadow duration-200">
+                <div class="verification-badge verified-green">
+                    ✓ Verified
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 blue rounded-full flex items-center justify-center">R</div>
+                    <div>
+                        <h4 class="font-semibold text-sm">RescueTeamMumbai</h4>
+                        <p class="text-xs text-gray-400 flex gap-1 items-center">⏱ 2 minutes ago 📍 Mumbai, Maharashtra</p>
+                    </div>
+                </div>
+                <p class="text-sm mb-2">Heavy rainfall reported in Andheri area. Water logging on Western Express Highway. Avoid this route if possible. Emergency teams deployed.</p>
+                <img src="https://via.placeholder.com/400x200" alt="Flood image" class="w-full h-48 object-cover rounded-md mb-2"/>
+                <div class="mb-2">
+                    <div class="text-xs text-green-400 mb-1">✓ Verified by INCOIS • ✓ Verified by Google Earth Engine</div>
+                    <div class="text-xs text-gray-500">Verified 1 hour ago</div>
+                </div>
+                <div class="flex gap-2 text-xs mb-2">
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Flood</span>
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Mumbai</span>
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Emergency</span>
+                </div>
+                <div class="flex gap-4 mt-2 text-xs">
+                    <span>❤ 45</span>
+                    <span>💬 12</span>
+                    <span>🔗 8</span>
+                </div>
+            </div>
+
+            <div class="post-card py-6 mb-6 p-4 hover:shadow-lg transition-shadow duration-200">
+                <div class="verification-badge verified-yellow">
+                    ⏳ Verifying
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 blue rounded-full flex items-center justify-center">C</div>
+                    <div>
+                        <h4 class="font-semibold text-sm">CitizenReporter</h4>
+                        <p class="text-xs text-gray-400 flex gap-1 items-center">⏱ 15 minutes ago 📍 Chennai, Tamil Nadu</p>
+                    </div>
+                </div>
+                <p class="text-sm mb-2">Cyclone Michaung approaching coast. Strong winds already felt. All residents in coastal areas please move to safer locations immediately.</p>
+                <div class="mb-2">
+                <div class="text-xs mb-1">
+                <span class="text-green-400">✓ Verified by Google Earth Engine</span> • 
+                <span class="text-yellow-400">⏳ INCOIS verification in progress</span>
+                </div>
+                    <div class="text-xs text-gray-500">Verified 30 minutes ago</div>
+                </div>
+                <div class="flex gap-2 text-xs mb-2">
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Cyclone</span>
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Chennai</span>
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Evacuation</span>
+                </div>
+                <div class="flex gap-4 mt-2 text-xs">
+                    <span class="text-red-400">❤ 128</span>
+                    <span>💬 34</span>
+                    <span>🔗 67</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden posts container -->
+        <div id="hiddenPosts" class="hidden">
+            <div class="post-card py-6 mb-6 p-4 hover:shadow-lg transition-shadow duration-200">
+                <div class="verification-badge verified-red">
+                    ⚠ False Info
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">E</div>
+                    <div>
+                        <h4 class="font-semibold text-sm">SampleUser</h4>
+                        <p class="text-xs text-gray-400 flex gap-1 items-center">⏱ 45 minutes ago 📍 Kolkata, West Bengal</p>
+                    </div>
+                </div>
+                <p class="text-sm mb-2">Flash flood warning issued for low-lying areas. Water level rising rapidly in Hooghly river. Immediate evacuation recommended.</p>
+                <div class="mb-2">
+                    <div class="text-xs text-red-400 mb-1">⚠ Flagged as misinformation • ✗ Not verified by authorities</div>
+                    <div class="text-xs text-gray-500">Flagged 30 minutes ago</div>
+                </div>
+                <div class="flex gap-2 text-xs mb-2">
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#FlashFlood</span>
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Kolkata</span>
+                    <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Alert</span>
+                </div>
+                <div class="flex gap-4 mt-2 text-xs">
+                    <span>❤ 87</span>
+                    <span>💬 23</span>
+                    <span>🔗 15</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mb-8">
+            <button id="loadMoreBtn" class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">Load More Posts</button>
+        </div>
     </div>
 
-    <!-- Filter buttons -->
-    <div class="flex items-center justify-between mb-6 fade-up">
-      <div class="flex gap-2">
-        <!-- Added translation attributes -->
-        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.latest">🕒 Latest</button>
-        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.trendingtab">📈 Trending</button>
-        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.nearby">📍 Nearby</button>
-      </div>
-      <!-- Added translation attribute -->
-      <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.showmap">🗺 Show Map</button>
-    </div>
+    <script>
+        // Posts data
+        let allPosts = [];
+        let visiblePostsCount = 2;
+        let mediaFile = null;
+        let currentLocation = '';
 
-    <!-- Sample posts -->
-    <div class="fade-up">
-      <div class="post-card py-6 mb-6 p-4 hover:shadow-lg transition-shadow duration-200">
-        <div class="flex items-center gap-3 mb-2">
-          <div class="w-8 h-8 blue rounded-full flex items-center justify-center">R</div>
-        <div>
-            <h4 class="font-semibold text-sm">RescueTeamMumbai</h4>
-            <p class="text-xs text-gray-400 flex gap-1 items-center">⏱ 2 minutes ago 📍 Mumbai, Maharashtra</p>
-          </div>
-        </div>
-        <p class="text-sm mb-2">Heavy rainfall reported in Andheri area. Water logging on Western Express Highway. Avoid this route if possible. Emergency teams deployed.</p>
-        <img src="germanyfloods_1280x720.jpg" alt="Flood image" class="w-full h-48 object-cover rounded-md mb-2"/>
-        <div class="flex gap-2 text-xs">
-          <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Flood</span>
-          <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Mumbai</span>
-          <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Emergency</span>
-        </div>
-        <div class="flex gap-4 mt-2 text-xs">
-          <span>❤ 45</span>
-          <span>💬 12</span>
-          <span>🔗 8</span>
-        </div>
-      </div>
+        // DOM elements
+        const postText = document.getElementById('postText');
+        const locationInput = document.getElementById('locationInput');
+        const photoInput = document.getElementById('photoInput');
+        const videoInput = document.getElementById('videoInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const gpsBtn = document.getElementById('gpsBtn');
+        const mediaPreview = document.getElementById('mediaPreview');
+        const imagePreview = document.getElementById('imagePreview');
+        const videoPreview = document.getElementById('videoPreview');
+        const postsContainer = document.getElementById('postsContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const hiddenPosts = document.getElementById('hiddenPosts');
 
-      <div class="post-card py-6 mb-6 p-4 hover:shadow-lg transition-shadow duration-200">
-        <div class="flex items-center gap-3 mb-2">
-          <div class="w-8 h-8 blue rounded-full flex items-center justify-center">C</div>
-          <div>
-            <h4 class="font-semibold text-sm">CitizenReporter</h4>
-            <p class="text-xs text-gray-400 flex gap-1 items-center">⏱ 15 minutes ago 📍 Chennai, Tamil Nadu</p>
-          </div>
-        </div>
-        <p class="text-sm mb-2">Cyclone Michaung approaching coast. Strong winds already felt. All residents in coastal areas please move to safer locations immediately.</p>
-                <img src="images (2).png" alt="Flood image" class="w-full h-48 object-cover rounded-md mb-2"/>
-        <div class="flex gap-2 text-xs">
-          <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Cyclone</span>
-          <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Chennai</span>
-          <span class="bg-gray-800 px-2 py-0.5 rounded-md">#Evacuation</span>
-        </div>
-        <div class="flex gap-4 mt-2 text-xs">
-          <span class="text-red-400">❤ 128</span>
-          <span>💬 34</span>
-          <span>🔗 67</span>
-        </div>
-      </div>
-    </div>
+        // Initialize posts array with existing posts
+        function initializePosts() {
+            // Get all existing posts and add them to allPosts array
+            const existingPosts = Array.from(postsContainer.querySelectorAll('.post-card'));
+            allPosts = existingPosts.concat(Array.from(hiddenPosts.querySelectorAll('.post-card')));
+            
+            updatePostVisibility();
+        }
 
-  </div>
+        // Media file handling
+        photoInput.addEventListener('change', handleFileSelect);
+        videoInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            mediaFile = file;
+            const fileURL = URL.createObjectURL(file);
+
+            mediaPreview.classList.remove('hidden');
+
+            if (file.type.startsWith('image/')) {
+                imagePreview.src = fileURL;
+                imagePreview.classList.remove('hidden');
+                videoPreview.classList.add('hidden');
+            } else if (file.type.startsWith('video/')) {
+                videoPreview.src = fileURL;
+                videoPreview.classList.remove('hidden');
+                imagePreview.classList.add('hidden');
+            }
+        }
+
+        // GPS location with reverse geocoding
+        gpsBtn.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                gpsBtn.innerHTML = '📍 Getting location...';
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const lat = position.coords.latitude.toFixed(6);
+                        const lon = position.coords.longitude.toFixed(6);
+                        
+                        try {
+                            // Use OpenStreetMap Nominatim for reverse geocoding (free service)
+                            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`);
+                            const data = await response.json();
+                            
+                            let locationString = '';
+                            if (data && data.address) {
+                                const addr = data.address;
+                                
+                                // Build location string with available details
+                                const parts = [];
+                                
+                                // Add specific location (house number, road, etc.)
+                                if (addr.house_number && addr.road) {
+                                    parts.push(`${addr.house_number} ${addr.road}`);
+                                } else if (addr.road) {
+                                    parts.push(addr.road);
+                                } else if (addr.residential || addr.neighbourhood) {
+                                    parts.push(addr.residential || addr.neighbourhood);
+                                }
+                                
+                                // Add sector/area
+                                if (addr.suburb) {
+                                    parts.push(addr.suburb);
+                                }
+                                
+                                // Add city
+                                if (addr.city || addr.town || addr.village) {
+                                    parts.push(addr.city || addr.town || addr.village);
+                                }
+                                
+                                // Add state
+                                if (addr.state) {
+                                    parts.push(addr.state);
+                                }
+                                
+                                // Add country
+                                if (addr.country) {
+                                    parts.push(addr.country);
+                                }
+                                
+                                locationString = parts.join(', ');
+                                
+                                // If we couldn't get a good address, fall back to coordinates
+                                if (!locationString || locationString.length < 10) {
+                                    locationString = `${lat}, ${lon}`;
+                                }
+                            } else {
+                                locationString = `${lat}, ${lon}`;
+                            }
+                            
+                            locationInput.value = locationString;
+                        } catch (error) {
+                            // Fallback to coordinates if geocoding fails
+                            locationInput.value = `${lat}, ${lon}`;
+                        }
+                        
+                        gpsBtn.innerHTML = '📍 GPS';
+                    },
+                    (error) => {
+                        alert('Unable to get location');
+                        gpsBtn.innerHTML = '📍 GPS';
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser');
+            }
+        });
+
+        // Send post
+        sendBtn.addEventListener('click', () => {
+            const text = postText.value.trim();
+            const location = locationInput.value.trim();
+
+            if (!text) {
+                alert('Please enter post content');
+                return;
+            }
+
+            if (!location) {
+                alert('Location is required');
+                return;
+            }
+
+            createPost(text, location, mediaFile);
+        });
+
+        function getVerificationStatus() {
+            // All new user posts get yellow verification status (verifying)
+            return { 
+                badge: 'verified-yellow', 
+                icon: '⏳ Verifying',
+                details: '⏳ INCOIS verification : In progress • ⏳ Google Earth engine : In progress',
+                timestamp: 'Verification initiated just now'
+            };
+        }
+
+        function createPost(text, location, file) {
+            const verification = getVerificationStatus();
+            const timeAgo = 'Just now';
+
+            let mediaHTML = '';
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+                if (file.type.startsWith('image/')) {
+                    mediaHTML = `<img src="${fileURL}" alt="User uploaded image" class="w-full h-48 object-cover rounded-md mb-2"/>`;
+                } else if (file.type.startsWith('video/')) {
+                    mediaHTML = `<video src="${fileURL}" class="w-full h-48 object-cover rounded-md mb-2" controls></video>`;
+                }
+            }
+
+            // Extract hashtags from text
+            const hashtags = extractHashtags(text);
+
+            // Create post element
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post-card py-6 mb-6 p-4 hover:shadow-lg transition-shadow duration-200';
+            postDiv.style.opacity = '0';
+            postDiv.style.transform = 'translateY(20px)';
+            
+            postDiv.innerHTML = `
+                <div class="verification-badge ${verification.badge}">
+                    ${verification.icon}
+                </div>
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">U</div>
+                    <div>
+                        <h4 class="font-semibold text-sm">User Report</h4>
+                        <p class="text-xs text-gray-400 flex gap-1 items-center">⏱ ${timeAgo} 📍 ${location}</p>
+                    </div>
+                </div>
+                <p class="text-sm mb-2">${text}</p>
+                ${mediaHTML}
+                <div class="mb-2">
+                    <div class="text-xs ${verification.badge === 'verified-green' ? 'text-green-400' : verification.badge === 'verified-yellow' ? 'text-yellow-400' : 'text-red-400'} mb-1">${verification.details}</div>
+                    <div class="text-xs text-gray-500">${verification.timestamp}</div>
+                </div>
+                <div class="flex gap-2 text-xs mb-2">
+                    ${hashtags.map(tag => `<span class="bg-gray-800 px-2 py-0.5 rounded-md">${tag}</span>`).join('')}
+                </div>
+                <div class="flex gap-4 mt-2 text-xs">
+                    <span>❤ 0</span>
+                    <span>💬 0</span>
+                    <span>🔗 0</span>
+                </div>
+            `;
+
+            // Add new post to the beginning of allPosts array
+            allPosts.unshift(postDiv);
+
+            // Trigger animation after insertion
+            setTimeout(() => {
+                postDiv.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                postDiv.style.opacity = '1';
+                postDiv.style.transform = 'translateY(0)';
+            }, 50);
+
+            // Update post visibility
+            updatePostVisibility();
+
+            // Clear form
+            postText.value = '';
+            locationInput.value = '';
+            mediaPreview.classList.add('hidden');
+            imagePreview.classList.add('hidden');
+            videoPreview.classList.add('hidden');
+            photoInput.value = '';
+            videoInput.value = '';
+            mediaFile = null;
+        }
+
+        function extractHashtags(text) {
+            // Extract hashtags from text, or add default ones
+            const hashtagMatches = text.match(/#\w+/g);
+            const hashtags = hashtagMatches ? hashtagMatches : ['#UserReport'];
+            
+            // Add common disaster-related hashtags based on keywords
+            const keywords = text.toLowerCase();
+            if (keywords.includes('flood') || keywords.includes('water')) hashtags.push('#Flood');
+            if (keywords.includes('fire')) hashtags.push('#Fire');
+            if (keywords.includes('earthquake')) hashtags.push('#Earthquake');
+            if (keywords.includes('cyclone') || keywords.includes('hurricane')) hashtags.push('#Cyclone');
+            if (keywords.includes('emergency')) hashtags.push('#Emergency');
+            if (keywords.includes('rescue')) hashtags.push('#Rescue');
+            
+            // Remove duplicates and return first 4
+            return [...new Set(hashtags)].slice(0, 4);
+        }
+
+        function updatePostVisibility() {
+            // Clear current posts container (except the load more button)
+            const posts = postsContainer.querySelectorAll('.post-card');
+            posts.forEach(post => post.remove());
+
+            // Show visible posts
+            for (let i = 0; i < Math.min(visiblePostsCount, allPosts.length); i++) {
+                postsContainer.appendChild(allPosts[i]);
+            }
+
+            // Update load more button
+            const remainingPosts = allPosts.length - visiblePostsCount;
+            if (remainingPosts > 0) {
+                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.textContent = `Load More Posts (${remainingPosts})`;
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // Load more posts
+        loadMoreBtn.addEventListener('click', () => {
+            visiblePostsCount += 3; // Load 3 more posts at a time
+            updatePostVisibility();
+            
+            // Smooth scroll to new posts
+            setTimeout(() => {
+                const lastVisiblePost = postsContainer.lastElementChild;
+                if (lastVisiblePost) {
+                    lastVisiblePost.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        });
+
+        // Initialize the app
+        initializePosts();
+    </script>
+
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -1307,6 +1748,7 @@
     .comment-input { background: rgba(255,255,255,0.08); color: #fff; }
   </style>
    
+
 
 
 
