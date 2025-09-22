@@ -256,7 +256,7 @@ spline-viewer {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
-  margin-top: 40px;
+  margin-top: 100px;
 }
 
 .status-icon {
@@ -1086,3 +1086,4 @@ spline-viewer {
   padding: 3px 8px;
   border-radius: 6px;
 }
+
