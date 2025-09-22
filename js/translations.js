@@ -17,6 +17,11 @@ class TranslationManager {
   loadTranslations() {
     // English (default)
     this.translations.en = {
+      //gee
+      "hero-title": "Live Google Earth Hazard Representation",
+      "hero-description": "Real-time visualization of natural hazards and climate data across South Asia using advanced satellite imagery and earth observation technology.",
+      "enlarge-map": "Enlarge Map",
+      "minimize-map": "Minimize Map",
       // Navigation
       "nav.home": "Home",
       "nav.report": "Report Hazard",
@@ -144,6 +149,10 @@ class TranslationManager {
 
     // Spanish translations
     this.translations.mr = {
+      "hero-title": "लाइव्ह गुगल अर्थ धोका प्रतिनिधित्व",
+"hero-description": "प्रगत उपग्रह इमेजिंग आणि पृथ्वी निरीक्षण तंत्रज्ञानाचा वापर करून दक्षिण आशियामधील नैसर्गिक धोके आणि हवामान डेटाचे रिअल-टाइम व्हिज्युअलायझेशन।",
+"enlarge-map": "नकाशा मोठा करा",
+"minimize-map": "नकाशा लहान करा",
       // Navigation
       "nav.home": "मुख्यपृष्ठ",
       "nav.report": "धोक्याची नोंद करा",
@@ -269,6 +278,10 @@ class TranslationManager {
     }
 
     this.translations.pa = {
+      "hero-title": "ਲਾਈਵ ਗੂਗਲ ਅਰਥ ਖਤਰਾ ਪ੍ਰਤਿਨਿਧਤਾ",
+"hero-description": "ਉੱਨਤ ਸੈਟੇਲਾਈਟ ਇਮੇਜਰੀ ਅਤੇ ਧਰਤੀ ਨਿਰੀਖਣ ਤਕਨਾਲੋਜੀ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਦੱਖਣੀ ਏਸ਼ੀਆ ਵਿੱਚ ਕੁਦਰਤੀ ਖ਼ਤਰਿਆਂ ਅਤੇ ਜਲਵਾਯੂ ਡੇਟਾ ਦਾ ਰੀਅਲ-ਟਾਈਮ ਦ੍ਰਿਸ਼ਟੀਕਰਨ।",
+"enlarge-map": "ਨਕਸ਼ਾ ਵਧਾਓ",
+"minimize-map": "ਨਕਸ਼ਾ ਘਟਾਓ",
       // Navigation
       "nav.home": "ਹੋਮ",
       "nav.report": "ਖਤਰਾ ਰਿਪੋਰਟ ਕਰੋ",
@@ -394,6 +407,10 @@ class TranslationManager {
     }
     
     this.translations.hi = {
+      "hero-title": "लाइव गूगल अर्थ खतरा प्रतिनिधित्व",
+"hero-description": "उन्नत उपग्रह इमेजरी और पृथ्वी अवलोकन प्रौद्योगिकी का उपयोग करके दक्षिण एशिया में प्राकृतिक खतरों और जलवायु डेटा का वास्तविक समय दृश्यीकरण।",
+"enlarge-map": "मानचित्र बड़ा करें",
+"minimize-map": "मानचित्र छोटा करें",
   // Navigation
   "nav.home": "मुखपृष्ठ",
   "nav.report": "खतरा रिपोर्ट करें",
@@ -522,6 +539,10 @@ class TranslationManager {
 
     //odia translations
     this.translations.or = {
+      "hero-title": "ଲାଇଭ ଗୁଗଲ ଆର୍ଥ ବିପଦ ପ୍ରତିନିଧିତ୍ୱ",
+"hero-description": "ଉନ୍ନତ ଉପଗ୍ରହ ଚିତ୍ରଣ ଏବଂ ପୃଥିବୀ ନୀରିକ୍ଷଣ ପ୍ରଯୁକ୍ତିବିଦ୍ୟା ବ୍ୟବହାର କରି ଦକ୍ଷିଣ ଏସିଆରେ ପ୍ରାକୃତିକ ବିପଦ ଏବଂ ଜଳବାୟୁ ତଥ୍ୟର ବାସ୍ତବ ସମୟ ଦୃଶ୍ୟକରଣ।",
+"enlarge-map": "ମାନଚିତ୍ର ବଡ଼ କରନ୍ତୁ",
+"minimize-map": "ମାନଚିତ୍ର ଛୋଟ କରନ୍ତୁ",
       // Navigation
       "nav.home": "ହୋମ୍",
       "nav.report": "ଝୁମ୍କି ରିପୋର୍ଟ କରନ୍ତୁ",
@@ -645,6 +666,10 @@ class TranslationManager {
       "tracker.instructions": '"ଫିଡ୍ ରିଫ୍ରେଶ୍ କରନ୍ତୁ" କ୍ଲିକ୍ କରି X (Twitter)ରୁ ସତର୍କତା ଟ୍ରାକ୍ କରିବା ଆରମ୍ଭ କରନ୍ତୁ।',
     }
     this.translations.kn = {
+      "hero-title": "ಲೈವ್ ಗೂಗಲ್ ಅರ್ಥ್ ಅಪಾಯ ಪ್ರಾತಿನಿಧ್ಯ",
+"hero-description": "ಸುಧಾರಿತ ಉಪಗ್ರಹ ಚಿತ್ರಣ ಮತ್ತು ಭೂಮಿ ವೀಕ್ಷಣಾ ತಂತ್ರಜ್ಞಾನವನ್ನು ಬಳಸಿಕೊಂಡು ದಕ್ಷಿಣ ಏಷ್ಯಾದಾದ್ಯಂತ ನೈಸರ್ಗಿಕ ಅಪಾಯಗಳು ಮತ್ತು ಹವಾಮಾನ ಡೇಟಾದ ನೈಜ-ಸಮಯದ ದೃಶ್ಯೀಕರಣ।",
+"enlarge-map": "ನಕ್ಷೆ ವಿಸ್ತರಿಸಿ",
+"minimize-map": "ನಕ್ಷೆ ಕುಗ್ಗಿಸಿ",
       // Navigation
       "nav.home": "ಮುಖಪುಟ",
       "nav.report": "ಆಪತ್ತು ವರದಿ ಮಾಡಿ",
