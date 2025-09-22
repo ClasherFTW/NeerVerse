@@ -3,20 +3,31 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NeerVerse - AI-Powered Disaster Management Platform</title>
+    <title data-translate="hero.title">NeerVerse - AI-Powered Disaster Management Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Added Firebase auth script import -->
+   
+      <!-- Added Firebase auth script import -->
     <script type="module" src="firebase-auth.js"></script>
+     <!-- Added translation system scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/dynamic-translations.js"></script>
+    <!-- Added chatbot scripts -->
+    <script src="js/chatbot-knowledge.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/chatbot-integration.js"></script>
+    <link rel="stylesheet" href="css/chatbot.css">
+   
 </head>
 <body class="font-sans">
     <!-- Loading overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="loading-spinner"></div>
-            <div class="loading-text">Loading NeerVerse Platform</div>
+            <!-- Added translation attribute -->
+            <div class="loading-text" data-translate="common.loading">Loading NeerVerse Platform</div>
         </div>
     </div>
 
@@ -33,16 +44,17 @@
         <header class="header" role="banner">
             <div class="header-content">
                 <a href="#" class="brand" aria-label="NeerVerse Home">
-                    <div class="brand-logo">N</div>
+                    <div class="brand-logo">Nv</div>
                     <span class="brand-text">NeerVerse</span>
                 </a>
                 
                 <nav role="navigation">
                   <ul class="nav-menu">
-                    <li><a href="#Home" class="nav-link">Home</a></li>
-                    <li><a href="#Report" class="nav-link">Report Hazard</a></li>
-                    <li><a href="weather.html" class="nav-link">Maps</a></li>
-                    <li><a href="#Social" class="nav-link">Social Media</a></li>
+                    <!-- Added translation attributes to navigation links -->
+                    <li><a href="#Home" class="nav-link" data-translate="nav.home">Home</a></li>
+                    <li><a href="#Report" class="nav-link" data-translate="nav.report">Report Hazard</a></li>
+                    <li><a href="weather.html" class="nav-link" data-translate="nav.maps">Maps</a></li>
+                    <li><a href="#Social" class="nav-link" data-translate="nav.social">Social Media</a></li>
                   </ul>
                 </nav>
 
@@ -59,10 +71,10 @@
                         </button>
                     </div>
                     <div class="auth-group">
-                        <!-- Updated auth buttons to handle signed in/out states -->
-                        <a href="neerverse_login.html" class="btn btn-text" id="auth-signin-btn">Sign in</a>
-                        <a href="#getstarted" class="btn btn-primary" id="auth-primary-btn">Get started</a>
-                        <button class="btn btn-text" id="auth-signout-btn" onclick="handleSignOut()" style="display: none;">Sign out</button>
+                        <!-- Added translation attributes to auth buttons -->
+                        <a href="login.html" class="btn btn-text" id="auth-signin-btn" data-translate="nav.signin">Sign in</a>
+                        <a href="#getstarted" class="btn btn-primary" id="auth-primary-btn" data-translate="nav.getstarted">Get started</a>
+                        <button class="btn btn-text" id="auth-signout-btn" onclick="handleSignOut()" style="display: none;" data-translate="nav.signout">Sign out</button>
                     </div>
                 </div>
             </div>
@@ -72,12 +84,15 @@
         <main class="main-content" role="main">
             <div class="status-badge">
                 <div class="status-icon">!</div>
-                AI-Powered Disaster Management Platform
+                <!-- Added translation attribute -->
+                <span data-translate="hero.status">AI-Powered Disaster Management Platform</span>
             </div>
 
-            <h1 class="hero-title">NeerVerse</h1>
+            <!-- Added translation attribute -->
+            <h1 class="hero-title" data-translate="hero.title">NeerVerse</h1>
 
-            <p class="hero-subtitle">
+            <!-- Added translation attribute -->
+            <p class="hero-subtitle" data-translate="hero.subtitle">
                 A unified <span class="accent">geospatial intelligence platform</span> that integrates 
                 real-time hazard detection, AI-powered social media analytics, and interactive 
                 <span class="accent">disaster mapping</span> for comprehensive emergency response
@@ -85,10 +100,12 @@
 
             <section class="cta-section">
                 <div class="cta-buttons">
-                    <button class="btn btn-large btn-primary-large" id="getStartedBtn">
+                    <!-- Added translation attribute -->
+                    <button class="btn btn-large btn-primary-large" id="getStartedBtn" data-translate="nav.getstarted">
                         Get started
                     </button>
-                    <button class="btn btn-large btn-secondary-large" id="watchDemoBtn">
+                    <!-- Added translation attribute -->
+                    <button class="btn btn-large btn-secondary-large" id="watchDemoBtn" data-translate="hero.watchdemo">
                         Watch demo
                     </button>
                 </div>
@@ -97,19 +114,23 @@
             <section class="metrics-grid" role="region" aria-label="Platform Statistics">
                 <div class="metric">
                     <span class="metric-value">1,247</span>
-                    <span class="metric-label">Active Reports</span>
+                    <!-- Added translation attribute -->
+                    <span class="metric-label" data-translate="metrics.reports">Active Reports</span>
                 </div>
                 <div class="metric">
                     <span class="metric-value">23</span>
-                    <span class="metric-label">Active Alerts</span>
+                    <!-- Added translation attribute -->
+                    <span class="metric-label" data-translate="metrics.alerts">Active Alerts</span>
                 </div>
                 <div class="metric">
                     <span class="metric-value">892</span>
-                    <span class="metric-label">Species Monitored</span>
+                    <!-- Added translation attribute -->
+                    <span class="metric-label" data-translate="metrics.species">Species Monitored</span>
                 </div>
                 <div class="metric">
                     <span class="metric-value">15.7T</span>
-                    <span class="metric-label">Data Processed</span>
+                    <!-- Added translation attribute -->
+                    <span class="metric-label" data-translate="metrics.data">Data Processed</span>
                 </div>
             </section>
         </main>
@@ -139,8 +160,10 @@
          style="background: url('image.png') no-repeat center center / cover;">
   <div class="hazard-reporting-container">
     <header class="hazard-reporting-header">
-      <h2 class="hazard-reporting-title">Crowdsourced Hazard Reporting</h2>
-      <p class="hazard-reporting-subtitle">
+      <!-- Added translation attribute -->
+      <h2 class="hazard-reporting-title" data-translate="hazard.title">Crowdsourced Hazard Reporting</h2>
+      <!-- Added translation attribute -->
+      <p class="hazard-reporting-subtitle" data-translate="hazard.subtitle">
         Empower communities to report hazards in real-time with our intuitive reporting system
       </p>
     </header>
@@ -158,8 +181,9 @@
               </svg>
             </div>
             <div class="feature-content">
-              <h3>Geolocation Tagging</h3>
-              <p>Automatically capture precise location data for every report with GPS integration</p>
+              <!-- Added translation attributes -->
+              <h3 data-translate="hazard.geolocation.title">Geolocation Tagging</h3>
+              <p data-translate="hazard.geolocation.desc">Automatically capture precise location data for every report with GPS integration</p>
             </div>
           </div>
 
@@ -172,8 +196,9 @@
               </svg>
             </div>
             <div class="feature-content">
-              <h3>Multimedia Evidence</h3>
-              <p>Upload photos and videos to provide visual context for hazard reports</p>
+              <!-- Added translation attributes -->
+              <h3 data-translate="hazard.multimedia.title">Multimedia Evidence</h3>
+              <p data-translate="hazard.multimedia.desc">Upload photos and videos to provide visual context for hazard reports</p>
             </div>
           </div>
 
@@ -185,8 +210,9 @@
               </svg>
             </div>
             <div class="feature-content">
-              <h3>Real-time Processing</h3>
-              <p>Reports are processed instantly and verified through AI-powered analysis</p>
+              <!-- Added translation attributes -->
+              <h3 data-translate="hazard.realtime.title">Real-time Processing</h3>
+              <p data-translate="hazard.realtime.desc">Reports are processed instantly and verified through AI-powered analysis</p>
             </div>
           </div>
 
@@ -198,15 +224,17 @@
               </svg>
             </div>
             <div class="feature-content">
-              <h3>Community Verification</h3>
-              <p>Multiple reports from the same area are cross-verified for accuracy</p>
+              <!-- Added translation attributes -->
+              <h3 data-translate="hazard.community.title">Community Verification</h3>
+              <p data-translate="hazard.community.desc">Multiple reports from the same area are cross-verified for accuracy</p>
             </div>
           </div>
 
         </div>
 
         <div class="start-reporting-btn">
-          <button class="btn btn-large btn-reporting" id="startReportingBtn">
+          <!-- Added translation attribute -->
+          <button class="btn btn-large btn-reporting" id="startReportingBtn" data-translate="hazard.startreporting">
             Start Reporting
           </button>
         </div>
@@ -216,38 +244,43 @@
       <div class="report-card-section">
         <div class="report-card">
           <div class="report-card-header">
-            <div class="report-card-title">Report Interface</div>
+            <!-- Added translation attribute -->
+            <div class="report-card-title" data-translate="report.interface">Report Interface</div>
           </div>
 
           <div class="report-field">
-            <div class="report-field-label">Hazard Type</div>
+            <!-- Added translation attribute -->
+            <div class="report-field-label" data-translate="report.hazardtype">Hazard Type</div>
             <div class="report-field-value">Flood Warning</div>
           </div>
 
           <div class="report-field">
-            <div class="report-field-label">Location</div>
+            <!-- Added translation attribute -->
+            <div class="report-field-label" data-translate="report.location">Location</div>
             <div class="report-field-value">Downtown District, Sector 7</div>
           </div>
 
           <div class="report-field">
-            <div class="report-field-label">Severity</div>
+            <!-- Added translation attribute -->
+            <div class="report-field-label" data-translate="report.severity">Severity</div>
             <div class="report-field-value severity-high">
               <span class="severity-indicator"></span>
-              High Risk
+              <!-- Added translation attribute -->
+              <span data-translate="report.highrisk">High Risk</span>
             </div>
           </div>
 
           <div class="media-options">
-            <button class="media-btn">📷 Photo</button>
-            <button class="media-btn">🎥 Video</button>
-            <button class="media-btn">📍 Location</button>
+            <!-- Added translation attributes -->
+            <button class="media-btn" data-translate="report.photo">📷 Photo</button>
+            <button class="media-btn" data-translate="report.video">🎥 Video</button>
+            <button class="media-btn" data-translate="report.locationbtn">📍 Location</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 
     <!-- Spline viewer script -->
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.61/build/spline-viewer.js"></script>
@@ -264,7 +297,7 @@
             const result = await window.firebaseAuth.signOut();
             if (result.success) {
                 // Redirect to login page
-                window.location.href = 'neerverse_login.html';
+                window.location.href = 'login.html';
             }
         }
 
@@ -287,72 +320,43 @@
                 signInBtn.textContent = user.displayName || user.email.split('@')[0];
                 signInBtn.href = '#profile';
                 
-                primaryBtn.textContent = 'Dashboard';
+                primaryBtn.textContent = window.translationManager?.translate('nav.dashboard') || 'Dashboard';
                 primaryBtn.href = '#dashboard';
                 
                 signOutBtn.style.display = 'inline-block';
             } else {
                 // User is signed out
-                signInBtn.textContent = 'Sign in';
-                signInBtn.href = 'neerverse_login.html';
+                signInBtn.textContent = window.translationManager?.translate('nav.signin') || 'Sign in';
+                signInBtn.href = 'login.html';
                 
-                primaryBtn.textContent = 'Get started';
+                primaryBtn.textContent = window.translationManager?.translate('nav.getstarted') || 'Get started';
                 primaryBtn.href = '#getstarted';
                 
                 signOutBtn.style.display = 'none';
             }
         }
 
-        // Listen for auth state changes
-        if (window.firebaseAuth) {
-            const originalHandleAuthStateChange = window.firebaseAuth.handleAuthStateChange;
-            window.firebaseAuth.handleAuthStateChange = function(user) {
-                originalHandleAuthStateChange.call(this, user);
-                updateAuthUI(user);
-            };
-        }
+        // // Listen for auth state changes
+        // if (window.firebaseAuth) {
+        //     const originalHandleAuthStateChange = window.firebaseAuth.handleAuthStateChange;
+        //     window.firebaseAuth.handleAuthStateChange = function(user) {
+        //         originalHandleAuthStateChange.call(this, user);
+        //         updateAuthUI(user);
+        //     };
+        // }
+
+        window.addEventListener('languageChanged', () => {
+            const user = window.firebaseAuth?.getStoredUser();
+            updateAuthUI(user);
+        });
     </script>
-
-    <style>
-    :root {
-      --accent: #4285f4;
-      --muted: rgba(255,255,255,0.6);
-      --panel: rgba(255,255,255,0.05);
-      --border: rgba(255,255,255,0.1);
-    }
-
-    body {
-      background-color: #0d0d0d;
-      color: #fff;
-    }
-
-    .fade-up {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Post card dark theme */
-    .post-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-    .post-likes { color: var(--muted); }
-    .post-caption { color: #fff; }
-    .comment-input { background: rgba(255,255,255,0.08); color: #fff; }
-  </style>
-</head>
-<body class="font-sans">
 
   <!-- Header -->
   <div class="text-center mb-12 mt-6 fade-up">
-    <h2 class="text-4xl font-bold mb-4 ">Community Disaster Feed</h2>
-    <p class="text-xl text-gray-400 max-w-2xl mx-auto">Real-time updates from citizens, rescue teams, and authorities about ongoing disasters and hazards</p>
+    <!-- Added translation attribute -->
+    <h2 class="text-4xl font-bold mb-4" data-translate="feed.title">Community Disaster Feed</h2>
+    <!-- Added translation attribute -->
+    <p class="text-xl text-gray-400 max-w-2xl mx-auto" data-translate="feed.subtitle">Real-time updates from citizens, rescue teams, and authorities about ongoing disasters and hazards</p>
   </div>
 
   <div class="max-w-4xl mx-auto">
@@ -364,7 +368,8 @@
           <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
           <polyline points="16 7 22 7 22 13"></polyline>
         </svg>
-        <h3 class="font-semibold text-sm text-white">Trending Now</h3>
+        <!-- Added translation attribute -->
+        <h3 class="font-semibold text-sm text-white" data-translate="feed.trending">Trending Now</h3>
       </div>
       <div class="flex flex-wrap gap-2">
         <span class="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium border-green-500 text-green-400"># Cyclone (1247)</span>
@@ -379,14 +384,17 @@
     <!-- Post input card -->
     <div class="mb-8 fade-up">
       <div class="flex flex-col gap-4 rounded-xl border py-6 p-4" style="background: var(--panel); border-color: var(--border);">
-        <textarea class="border p-2 rounded-md w-full bg-gray-900 text-white" rows="3" placeholder="Report a hazard or share disaster updates..."></textarea>
+        <!-- Added translation attribute -->
+        <textarea class="border p-2 rounded-md w-full bg-gray-900 text-white" rows="3" data-translate="feed.placeholder" placeholder="Report a hazard or share disaster updates..."></textarea>
         <div class="flex justify-between items-center">
           <div class="flex gap-2">
-            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1">📷 Photo</button>
-            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1">🎥 Video</button>
-            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1">📍 Location</button>
+            <!-- Added translation attributes -->
+            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1" data-translate="report.photo">📷 Photo</button>
+            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1" data-translate="report.video">🎥 Video</button>
+            <button class="bg-black-800 px-3 py-1 rounded-md flex items-center gap-1" data-translate="report.locationbtn">📍 Location</button>
           </div>
-          <button class=" text-white px-4 py-1 rounded-md flex items-center gap-1">Send ➤</button>
+          <!-- Added translation attribute -->
+          <button class=" text-white px-4 py-1 rounded-md flex items-center gap-1" data-translate="feed.send">Send ➤</button>
         </div>
       </div>
     </div>
@@ -394,11 +402,13 @@
     <!-- Filter buttons -->
     <div class="flex items-center justify-between mb-6 fade-up">
       <div class="flex gap-2">
-        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">🕒 Latest</button>
-             <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">📈 Trending</button>
-        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">📍 Nearby</button>
+        <!-- Added translation attributes -->
+        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.latest">🕒 Latest</button>
+        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.trendingtab">📈 Trending</button>
+        <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.nearby">📍 Nearby</button>
       </div>
-<button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1">🗺 Show Map</button>
+      <!-- Added translation attribute -->
+      <button class="blue text-white px-3 py-1 rounded-md flex items-center gap-1" data-translate="feed.showmap">🗺 Show Map</button>
     </div>
 
     <!-- Sample posts -->
@@ -483,15 +493,15 @@
 
         /* Header */
         .header {
-            background: #0d0d0d;
-            border-radius: 20px;
+            background: #000000;
+            /* border-radius: 20px; */
             padding: 30px;
             margin-bottom: 20px;
             text-align: center;
-            backdrop-filter: blur;
+            /* backdrop-filter: blur; */
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            position: relative;
+            box-shadow: 0 8px 32px rgba(105, 105, 105, 0.5);
+            position: fixed;
         }
 
         .header h1 {
@@ -512,7 +522,7 @@
             gap: 8px;
             margin-top: 15px;
             padding: 8px 16px;
-            background: rgba(0, 255, 127, 0.1);
+            background: rgba(2, 240, 121, 0.1);
             border: 1px solid #00ff7f;
             border-radius: 20px;
             color: #00ff7f;
@@ -1016,284 +1026,285 @@
             }
         }
     </style>
-</head>
+
 <body>
-    <div class="container">
-          <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>Hazard Alert Tracker</h1>
-            
-        </div>
-
-
-        <!-- Controls -->
-        <div class="controls">
-            <button class="refresh-btn" onclick="fetchTweets()">
-                🔄 Refresh Feed
-            </button>
-            <div class="auto-refresh">
-                <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
-                <label for="autoRefresh">Auto-refresh every 30 seconds</label>
-            </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="stats">
-            <div class="stat-card alerts-card">
-                <div class="icon">⚡</div>
-                <div class="value" id="alertCount">0</div>
-                <div class="label">Active Alerts</div>
-            </div>
-            <div class="stat-card time-card">
-                <div class="icon">🕒</div>
-                <div class="value" id="lastUpdate">--:--</div>
-                <div class="label">Last Updated</div>
-            </div>
-            <div class="stat-card region-card">
-                <div class="icon">🌍</div>
-                <div class="value" id="region">Global</div>
-                <div class="label">Coverage</div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content" id="mainContent">
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Fetching latest hazard alerts...</p>
-            </div>
-            
-            <div class="no-alerts" id="noAlerts">
-                <div class="icon">ℹ️</div>
-                <h3>Ready to fetch alerts</h3>
-                <p>Click "Refresh Feed" to start monitoring hazard alerts from X (Twitter).</p>
-            </div>
-
-            <div id="tweetsContainer" class="tweets-container"></div>
-        </div>
+  <div class="hazard-tracker container">
+    <!-- Header -->
+    <div class="hazard-header">
+      <h1 data-translate="tracker.title">Hazard Alert Tracker</h1>
+      <p class="subtitle" data-translate="tracker.subtitle">
+        Real-time updates from citizens, rescue teams, and authorities
+      </p>
+      <div class="connection-status">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="connectionStatus" data-translate="tracker.online">Online ✅</span>
+      </div>
     </div>
 
-    <!-- Updated script loading and API configuration for deployment -->
-    <script src="/js/config.js"></script>
-    <script>
-        let autoRefreshInterval;
+    <!-- Controls -->
+    <div class="hazard-controls">
+      <button class="refresh-btn" onclick="fetchTweets()" data-translate="tracker.refresh">
+        🔄 Refresh Feed
+      </button>
+      <div class="auto-refresh">
+        <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+        <label for="autoRefresh" data-translate="tracker.autorefresh">Auto-refresh every 30s</label>
+      </div>
+    </div>
 
-        // Hazard-related keywords to search for
-        const hazardKeywords = [
-            'flood warning', 'earthquake alert', 'tsunami warning', 'hurricane alert',
-            'wildfire emergency', 'tornado warning', 'severe weather', 'emergency alert',
-            'evacuation notice', 'disaster alert', 'safety warning', 'hazard report',
-            'breaking emergency', 'urgent warning', 'cyclone alert', 'landslide warning'
-        ];
+    <!-- Stats -->
+    <div class="hazard-stats">
+      <div class="stat-card alerts-card">
+        <div class="icon">⚡</div>
+        <div class="value" id="alertCount">0</div>
+        <div class="label" data-translate="tracker.alerts">Active Alerts</div>
+      </div>
+      <div class="stat-card time-card">
+        <div class="icon">🕒</div>
+        <div class="value" id="lastUpdate">--:--</div>
+        <div class="label" data-translate="tracker.lastupdate">Last Updated</div>
+      </div>
+      <div class="stat-card region-card">
+        <div class="icon">🌍</div>
+        <div class="value" id="region">India</div>
+        <div class="label" data-translate="tracker.coverage">Coverage</div>
+      </div>
+    </div>
 
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 8px;
-                color: white;
-                font-weight: bold;
-                z-index: 1000;
-                animation: slideIn 0.3s ease;
-                background: ${type === 'success' ? '#00ff7f' : '#ff6b6b'};
-                border: 1px solid ${type === 'success' ? '#00cc66' : '#ee5a5a'};
-                max-width: calc(100vw - 40px);
-                word-wrap: break-word;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
+    <!-- Main Content -->
+    <div class="hazard-feed" id="mainContent">
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p data-translate="tracker.loading">Fetching latest hazard alerts...</p>
+      </div>
 
-        async function fetchTweets() {
-            const loading = document.getElementById('loading');
-            const noAlerts = document.getElementById('noAlerts');
-            const tweetsContainer = document.getElementById('tweetsContainer');
-            
-            // Show loading
-            loading.classList.add('active');
-            noAlerts.style.display = 'none';
-            tweetsContainer.innerHTML = '';
-            
-            // Update connection status
-            document.getElementById('connectionStatus').textContent = 'Connecting...';
+      <div class="no-alerts" id="noAlerts">
+        <div class="icon">ℹ</div>
+        <h3 data-translate="tracker.ready">Ready to fetch alerts</h3>
+        <p data-translate="tracker.instructions">
+          Click "Refresh Feed" to start monitoring hazard alerts from X (Twitter).
+        </p>
+      </div>
 
-            try {
-                const apiUrl = `${window.APP_CONFIG.API_BASE_URL}${window.APP_CONFIG.ENDPOINTS.HAZARD_TWEETS}`;
-                
-                const response = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                
-                // Display tweets
-                displayTweets(data.tweets || []);
-                updateStats(data.tweets || []);
-                
-                document.getElementById('connectionStatus').textContent = 'Connected';
-                
-                if (data.mock) {
-                    showNotification('Using demo data - Twitter API configured', 'success');
-                } else if (data.cached) {
-                    showNotification('Loaded cached data', 'success');
-                } else {
-                    showNotification(`Fetched ${data.tweets.length} alerts`, 'success');
-                }
-                
-            } catch (error) {
-                console.error('Error fetching tweets:', error);
-                showNoAlerts('Unable to fetch alerts at the moment. Please try again later.');
-                document.getElementById('connectionStatus').textContent = 'Offline';
-                showNotification('Connection failed - check server status', 'error');
-            } finally {
-                loading.classList.remove('active');
-            }
-        }
-
-        function displayTweets(tweets) {
-            const container = document.getElementById('tweetsContainer');
-            const noAlerts = document.getElementById('noAlerts');
-            
-            if (tweets.length === 0) {
-                showNoAlerts('No hazard alerts found at the moment. This is good news!');
-                return;
-            }
-
-            noAlerts.style.display = 'none';
-            
-            container.innerHTML = tweets.map(tweet => `
-                <div class="tweet-card">
-                    <div class="tweet-header">
-                        <span class="tweet-user">@${tweet.username}</span>
-                        <span class="tweet-time">${formatTime(tweet.created_at)}</span>
-                    </div>
-                    <div class="tweet-content">${escapeHtml(tweet.text)}</div>
-                    <div class="tweet-tags">
-                        ${tweet.hashtags?.map(tag => `<span class="tag">#${tag}</span>`).join('') || ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function showNoAlerts(message) {
-            const noAlerts = document.getElementById('noAlerts');
-            noAlerts.style.display = 'block';
-            noAlerts.querySelector('p').textContent = message;
-        }
-
-        function updateStats(tweets) {
-            document.getElementById('alertCount').textContent = tweets.length;
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
-        }
-
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = now - date;
-            
-            if (diff < 60000) return 'Just now';
-            if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
-            if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
-            return date.toLocaleDateString();
-        }
-
-        function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return text.replace(/[&<>"']/g, m => map[m]);
-        }
-
-        function toggleAutoRefresh() {
-            const checkbox = document.getElementById('autoRefresh');
-            
-            if (checkbox.checked) {
-                autoRefreshInterval = setInterval(fetchTweets, 30000);
-                showNotification('Auto-refresh enabled', 'success');
-            } else {
-                clearInterval(autoRefreshInterval);
-                showNotification('Auto-refresh disabled', 'success');
-            }
-        }
-
-        async function checkServerHealth() {
-            try {
-                const response = await fetch(`${window.APP_CONFIG.API_BASE_URL}${window.APP_CONFIG.ENDPOINTS.HEALTH}`);
-                const data = await response.json();
-                console.log('[v0] Server health check:', data);
-                return data.success;
-            } catch (error) {
-                console.error('[v0] Health check failed:', error);
-                return false;
-            }
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            updateStats([]);
-            
-            // Add CSS animation for slideIn
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); }
-                    to { transform: translateX(0); }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            checkServerHealth().then(isHealthy => {
-                if (isHealthy) {
-                    console.log('[v0] Server is healthy, ready to fetch data');
-                } else {
-                    console.warn('[v0] Server health check failed');
-                }
-            });
-        });
-
-        // Cleanup intervals when page is unloaded
-        window.addEventListener('beforeunload', function() {
-            if (autoRefreshInterval) {
-                clearInterval(autoRefreshInterval);
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                switch(e.key) {
-                    case 'r':
-                        e.preventDefault();
-                        fetchTweets();
-                        break;
-                    case 'a':
-                        e.preventDefault();
-                        document.getElementById('autoRefresh').click();
-                        break;
-                }
-            }
-        });
-    </script>
- 
-    
+      <div id="tweetsContainer" class="tweets-container"></div>
+    </div>
+  </div>
 </body>
-</html>
 
+  <!-- Updated script loading and API configuration for deployment -->
+  <script src="/js/config.js"></script>
+  <script>
+    let autoRefreshInterval;
+
+    const hazardKeywords = [
+      'flood warning', 'earthquake alert', 'tsunami warning', 'hurricane alert',
+      'wildfire emergency', 'tornado warning', 'severe weather', 'emergency alert',
+      'evacuation notice', 'disaster alert', 'safety warning', 'hazard report',
+      'breaking emergency', 'urgent warning', 'cyclone alert', 'landslide warning'
+    ];
+
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+        background: ${type === 'success' ? '#00ff7f' : '#ff6b6b'};
+        border: 1px solid ${type === 'success' ? '#00cc66' : '#ee5a5a'};
+        max-width: calc(100vw - 40px);
+        word-wrap: break-word;
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    async function fetchTweets() {
+      const loading = document.getElementById('loading');
+      const noAlerts = document.getElementById('noAlerts');
+      const tweetsContainer = document.getElementById('tweetsContainer');
+
+      loading.classList.add('active');
+      noAlerts.style.display = 'none';
+      tweetsContainer.innerHTML = '';
+
+      document.getElementById('connectionStatus').textContent = 'Online ✅';
+
+      try {
+        const apiUrl = `${window.APP_CONFIG.API_BASE_URL}${window.APP_CONFIG.ENDPOINTS.HAZARD_TWEETS}`;
+
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        displayTweets(data.tweets || []);
+        updateStats(data.tweets || []);
+
+        showNotification(`Fetched ${data.tweets.length} alerts`, 'success');
+      } catch (error) {
+        console.error('Error fetching tweets:', error);
+        showNoAlerts('Unable to fetch alerts at the moment. Please try again later.');
+        showNotification('Connection failed - showing offline data', 'error');
+      } finally {
+        loading.classList.remove('active');
+      }
+    }
+
+    function displayTweets(tweets) {
+      const container = document.getElementById('tweetsContainer');
+      const noAlerts = document.getElementById('noAlerts');
+
+      if (tweets.length === 0) {
+        showNoAlerts('No hazard alerts found at the moment. This is good news!');
+        return;
+      }
+
+      noAlerts.style.display = 'none';
+
+      container.innerHTML = tweets.map(tweet => `
+        <div class="tweet-card">
+          <div class="tweet-header">
+            <span class="tweet-user">@${tweet.username}</span>
+            <span class="tweet-time">${formatTime(tweet.created_at)}</span>
+          </div>
+          <div class="tweet-content">${escapeHtml(tweet.text)}</div>
+          <div class="tweet-tags">
+            ${tweet.hashtags?.map(tag => `<span class="tag">#${tag}</span>`).join('') || ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showNoAlerts(message) {
+      const noAlerts = document.getElementById('noAlerts');
+      noAlerts.style.display = 'block';
+      noAlerts.querySelector('p').textContent = message;
+    }
+
+    function updateStats(tweets) {
+      document.getElementById('alertCount').textContent = tweets.length;
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+    }
+
+    function formatTime(timestamp) {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diff = now - date;
+
+      if (diff < 60000) return 'Just now';
+      if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+      if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+      return date.toLocaleDateString();
+    }
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function toggleAutoRefresh() {
+      const checkbox = document.getElementById('autoRefresh');
+
+      if (checkbox.checked) {
+        autoRefreshInterval = setInterval(fetchTweets, 30000);
+        showNotification('Auto-refresh enabled', 'success');
+      } else {
+        clearInterval(autoRefreshInterval);
+        showNotification('Auto-refresh disabled', 'success');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      updateStats([]);
+
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Force status to online + India
+      document.getElementById('connectionStatus').textContent = 'Online ✅';
+      document.getElementById('region').textContent = 'India';
+    });
+
+    window.addEventListener('beforeunload', function() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+          case 'r':
+            e.preventDefault();
+            fetchTweets();
+            break;
+          case 'a':
+            e.preventDefault();
+            document.getElementById('autoRefresh').click();
+            break;
+        }
+      }
+    });
+  </script>
+    <style>
+    :root {
+      --accent: #4285f4;
+      --muted: rgba(255,255,255,0.6);
+      --panel: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.1);
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Post card dark theme */
+    .post-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .post-likes { color: var(--muted); }
+    .post-caption { color: #fff; }
+    .comment-input { background: rgba(255,255,255,0.08); color: #fff; }
+  </style>
+   
