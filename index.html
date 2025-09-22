@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="logo.png">
     <title data-translate="hero.title">NeerVerse - AI-Powered Disaster Management Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,8 +43,7 @@
         <!-- Professional Header -->
         <header class="header" role="banner">
             <div class="header-content">
-                <a href="#" class="brand" aria-label="NeerVerse Home" style="display: flex; align-items: center; gap: 10px;">
-                    <img src="logo.png" alt="NeerVerse Logo" style="height: 40px; width: auto;">
+                <a href="#" class="brand" aria-label="NeerVerse Home">
                     <span class="brand-text">NeerVerse</span>
                 </a>
                 
@@ -148,9 +146,250 @@
         </aside>
     </div>
 
-    <div class="map">
-        Space for the Google Earth Engine Map
+ <!-- Google Earth Hazard Section -->
+<div class="hero-container">
+  <div class="hero-content">
+    <h1 class="hero-heading" data-translate="hero-title">
+      Live Google Earth Hazard Representation
+    </h1>
+    <p class="hero-description" data-translate="hero-description">
+      Real-time visualization of natural hazards and climate data across South Asia using advanced satellite imagery and earth observation technology.
+    </p>
+  </div>
+
+
+  <div class="map-section">
+    <div class="map-controls">
+      <button class="control-btn enlarge-btn" onclick="enlargeMap()" title="Enlarge Map">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+      </button>
+      <button class="control-btn minimize-btn" onclick="minimizeMap()" title="Minimize Map">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+        </svg>
+      </button>
     </div>
+    <div class="hero-iframe-wrapper">
+      <iframe class="hero-iframe" src="https://vvenoml1106.users.earthengine.app/view/combined"></iframe>
+    </div>
+  </div>
+</div>
+
+<style>
+ /* Hero Container */
+.hero-container {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  background: #000;
+  position: relative;
+  padding: 2rem;
+  gap: 3rem;
+}
+
+/* Left Side Content */
+.hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%);
+  border-radius: 15px;
+}
+
+.hero-heading {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+/* Map Section */
+.map-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Map Controls */
+.map-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  z-index: 10;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+}
+
+/* Map Container */
+.hero-iframe-wrapper {
+  width: 100%;
+  max-width: 600px;
+  height: 60vh;
+  min-height: 400px;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 8px 20px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.5s ease;
+}
+
+.hero-iframe-wrapper.enlarged {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 90vh;
+  max-width: none;
+  z-index: 1000;
+  border-radius: 20px;
+}
+
+.hero-iframe-wrapper.minimized {
+  width: 80%;
+  height: 40vh;
+  min-height: 300px;
+}
+
+.hero-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Overlay for enlarged map */
+.map-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.map-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
+  }
+  
+  .hero-content {
+    padding: 1.5rem;
+  }
+  
+  .hero-iframe-wrapper {
+    width: 100%;
+    height: 50vh;
+    min-height: 300px;
+  }
+  
+  .hero-iframe-wrapper.minimized {
+    width: 90%;
+    height: 35vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-container {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+  
+  .hero-content {
+    padding: 1rem;
+  }
+  
+  .hero-iframe-wrapper {
+    height: 40vh;
+    min-height: 250px;
+  }
+}
+
+  
+</style>
+
+<script>
+  function enlargeMap() {
+    const mapWrapper = document.querySelector('.hero-iframe-wrapper');
+    const overlay = document.createElement('div');
+    overlay.className = 'map-overlay';
+    overlay.onclick = minimizeMap;
+    
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.classList.add('active'), 10);
+    
+    mapWrapper.classList.add('enlarged');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function minimizeMap() {
+    const mapWrapper = document.querySelector('.hero-iframe-wrapper');
+    const overlay = document.querySelector('.map-overlay');
+    
+    mapWrapper.classList.remove('enlarged');
+    mapWrapper.classList.remove('minimized');
+    document.body.style.overflow = 'auto';
+    
+    if (overlay) {
+      overlay.classList.remove('active');
+      setTimeout(() => overlay.remove(), 300);
+    }
+  }
+</script>
+</style>
 
  <!-- Crowdsourced Hazard Reporting Section -->
 <section class="hazard-reporting-section" 
@@ -434,10 +673,16 @@
 </head>
 <body class="min-h-screen">
     <!-- Header -->
-    <div class="text-center mb-12 mt-6 fade-up">
-        <h2 class="text-4xl font-bold mb-4">Community Disaster Feed</h2>
-        <p class="text-xl text-gray-400 max-w-2xl mx-auto">Real-time updates from citizens, rescue teams, and authorities about ongoing disasters and hazards</p>
-    </div>
+   <!-- Header -->
+<div class="text-center mb-12 mt-6 fade-up">
+  <h2 class="text-4xl font-bold mb-4" data-translate="feed.title">
+    Community Disaster Feed
+  </h2>
+  <p class="text-xl text-gray-400 max-w-2xl mx-auto" data-translate="feed.subtitle">
+    Real-time updates from citizens, rescue teams, and authorities about ongoing disasters and hazards
+  </p>
+</div>
+
 
     <div class="max-w-4xl mx-auto px-4">
         <!-- Trending badges -->
@@ -1553,7 +1798,6 @@
     .comment-input { background: rgba(255,255,255,0.08); color: #fff; }
   </style>
    
-
 
 
 
