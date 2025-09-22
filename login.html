@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to NeerVerse</title>
+    <!-- Added translation attribute -->
+    <title data-translate="login.welcome">Welcome to NeerVerse</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.64/build/spline-viewer.js"></script>
     <script type="module" src="firebase-auth.js"></script>
+    <!-- Added translation system scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/dynamic-translations.js"></script>
+    <!-- Added chatbot scripts -->
+    <script src="js/chatbot-knowledge.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/chatbot-integration.js"></script>
+    <link rel="stylesheet" href="css/chatbot.css">
     <style>
         * {
             margin: 0;
@@ -460,8 +469,9 @@
                     <i class="fas fa-globe-americas"></i>
                     <div class="brand-name">NeerVerse</div>
                 </div>
-                <div class="brand-subtitle">Crowdsourced Reporting Assistant</div>
-                <div class="brand-description">
+                <!-- Added translation attributes -->
+                <div class="brand-subtitle" data-translate="login.brand.subtitle">Crowdsourced Reporting Assistant</div>
+                <div class="brand-description" data-translate="login.brand.description">
                     Your ultimate platform for community-driven reporting with real-time tracking, advanced analytics, and collaborative features.
                 </div>
             </div>
@@ -475,84 +485,100 @@
         <div class="right-side">
             <div class="login-container">
                 <div class="welcome-header">
-                    <h1 class="welcome-title">Welcome to NeerVerse</h1>
-                    <p class="welcome-subtitle">Sign in to access your reporting dashboard</p>
+                    <!-- Added translation attributes -->
+                    <h1 class="welcome-title" data-translate="login.welcome">Welcome to NeerVerse</h1>
+                    <p class="welcome-subtitle" data-translate="login.subtitle">Sign in to access your reporting dashboard</p>
                 </div>
 
                 <!-- Tab Navigation -->
                 <div class="auth-tabs">
-                    <button class="tab-btn active" onclick="switchTab('signin')">Sign In</button>
-                    <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+                    <!-- Added translation attributes -->
+                    <button class="tab-btn active" onclick="switchTab('signin')" data-translate="login.signin">Sign In</button>
+                    <button class="tab-btn" onclick="switchTab('signup')" data-translate="login.signup">Sign Up</button>
                 </div>
 
                 <!-- Sign In Form -->
                 <div id="signin-form" class="auth-form active">
+                    <!-- Added translation attribute -->
                     <button class="google-btn" onclick="handleGoogleLogin()">
                         <i class="fab fa-google"></i>
-                        Continue with Google
+                        <span data-translate="login.google">Continue with Google</span>
                     </button>
 
                     <div class="divider">
-                        <span>OR</span>
+                        <!-- Added translation attribute -->
+                        <span data-translate="login.or">OR</span>
                     </div>
 
                     <div class="login-type-selector">
                         <button class="login-type-btn active" onclick="switchLoginType('email')">
-                            <i class="fas fa-envelope"></i> Email
+                            <!-- Added translation attribute -->
+                            <i class="fas fa-envelope"></i> <span data-translate="login.email">Email</span>
                         </button>
                         <button class="login-type-btn" onclick="switchLoginType('phone')">
-                            <i class="fas fa-phone"></i> Phone
+                            <!-- Added translation attribute -->
+                            <i class="fas fa-phone"></i> <span data-translate="login.phone">Phone</span>
                         </button>
                     </div>
 
                     <form onsubmit="handleSignIn(event)">
                         <div class="form-group">
-                            <label class="form-label" id="signin-label">Email</label>
+                            <!-- Added translation attribute -->
+                            <label class="form-label" id="signin-label" data-translate="login.email">Email</label>
                             <input type="email" id="signin-input" class="form-input" placeholder="demo@neerverse.gg" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Password</label>
+                            <!-- Added translation attribute -->
+                            <label class="form-label" data-translate="login.password">Password</label>
                             <input type="password" id="signin-password" class="form-input" placeholder="••••••••" required>
                         </div>
 
-                        <button type="submit" class="primary-btn">Sign In</button>
+                        <!-- Added translation attribute -->
+                        <button type="submit" class="primary-btn" data-translate="login.signin">Sign In</button>
                     </form>
                 </div>
 
                 <!-- Sign Up Form -->
                 <div id="signup-form" class="auth-form">
+                    <!-- Added translation attribute -->
                     <button class="google-btn" onclick="handleGoogleLogin()">
                         <i class="fab fa-google"></i>
-                        Continue with Google
+                        <span data-translate="login.google">Continue with Google</span>
                     </button>
 
                     <div class="divider">
-                        <span>OR</span>
+                        <!-- Added translation attribute -->
+                        <span data-translate="login.or">OR</span>
                     </div>
 
                     <form onsubmit="handleSignUp(event)">
                         <div class="form-group">
-                            <label class="form-label">Full Name</label>
+                            <!-- Added translation attribute -->
+                            <label class="form-label" data-translate="login.fullname">Full Name</label>
                             <input type="text" id="signup-name" class="form-input" placeholder="Enter your full name" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Email</label>
+                            <!-- Added translation attribute -->
+                            <label class="form-label" data-translate="login.email">Email</label>
                             <input type="email" id="signup-email" class="form-input" placeholder="Enter your email" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Password</label>
+                            <!-- Added translation attribute -->
+                            <label class="form-label" data-translate="login.password">Password</label>
                             <input type="password" id="signup-password" class="form-input" placeholder="Create a password" required>
                         </div>
 
                         <div class="checkbox-group">
                             <input type="checkbox" id="terms" required>
-                            <label for="terms">I agree to the Terms of Service and Privacy Policy</label>
+                            <!-- Added translation attribute -->
+                            <label for="terms" data-translate="login.terms">I agree to the Terms of Service and Privacy Policy</label>
                         </div>
 
-                        <button type="submit" class="primary-btn">Create Account</button>
+                        <!-- Added translation attribute -->
+                        <button type="submit" class="primary-btn" data-translate="login.createaccount">Create Account</button>
                     </form>
                 </div>
             </div>
@@ -589,11 +615,11 @@
             const input = document.getElementById('signin-input');
 
             if (type === 'email') {
-                label.textContent = 'Email';
+                label.textContent = window.translationManager?.translate('login.email') || 'Email';
                 input.type = 'email';
                 input.placeholder = 'demo@neerverse.gg';
             } else {
-                label.textContent = 'Phone Number';
+                label.textContent = window.translationManager?.translate('login.phone') || 'Phone Number';
                 input.type = 'tel';
                 input.placeholder = '+91 98765 43210';
             }
