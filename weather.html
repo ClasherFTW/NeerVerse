@@ -1,0 +1,421 @@
+e<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title data-translate="weather.title">NeerVerse — Weather Dashboard</title>
+<link rel="icon" type="image/png" href="logo.png">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Added Firebase auth script import -->
+<script type="module" src="firebase-auth.js"></script>
+<!-- Added translation system script -->
+<script src="js/translations.js"></script>
+<script src="js/dynamic-translations.js"></script>
+
+<!-- Added chatbot scripts -->
+<script src="js/chatbot-knowledge.js"></script>
+<script src="js/chatbot.js"></script>
+<script src="js/chatbot-integration.js"></script>
+<link rel="stylesheet" href="css/chatbot.css">
+
+<!-- Main stylesheet link -->
+<link rel="stylesheet" href="style.css">
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+:root{
+  --bg:#0d0d0d;
+  --panel: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.1);
+  --accent: #1e90ff;
+  --muted: rgba(255,255,255,0.6);
+}
+
+/* Global */
+body { margin:0; font-family: 'Google Sans','Roboto Mono',sans-serif; background: var(--bg); color:white; padding:0;}
+h1,h2,h3,h4,h5,h6 {margin:0;}
+
+/* Hero */
+.hero { text-align:center; margin-top:140px; margin-bottom:40px; padding: 0 24px; }
+.hero h1 { font-size: clamp(2rem,6vw,3rem); font-weight:700; background: linear-gradient(135deg,#fff,#ccc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p { color: var(--muted); max-width:600px; margin:0 auto; line-height:1.6; }
+
+/* Main content */
+.main-weather-content {
+  padding: 0 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Grid & Cards - fixed 2x2 layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* two columns */
+  grid-template-rows: repeat(2, 1fr);    /* two rows */
+  gap: 16px;
+}
+@media(max-width:640px){
+  .grid { 
+    grid-template-columns: 1fr; /* single column on small screens */
+    grid-template-rows: auto;
+  }
+}
+
+.card {
+  background: var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  aspect-ratio:1/1;
+  overflow:hidden;
+  opacity:0;
+  transform: translateY(20px);
+  transition: transform .3s ease, box-shadow .3s ease, opacity .5s ease;
+  position:relative;
+}
+.card.visible { opacity:1; transform:translateY(0);}
+.card:hover { transform: translateY(-6px) scale(1.02); box-shadow:0 12px 28px rgba(0,0,0,0.5); }
+
+.card-header { padding:12px; display:flex; align-items:center; gap:10px; position:relative; justify-content:space-between; }
+.chip { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:white; }
+.chip.precip { background: linear-gradient(135deg,#ffe29f,#ff7b7b); color:#071012; }
+.chip.imerg  { background: linear-gradient(135deg,#3a5cff,#00b4ff); }
+.chip.temp   { background: linear-gradient(135deg,#4ecdc4,#5567ff); }
+.chip.smap   { background: linear-gradient(135deg,#c6ffdd,#7bd389); color:#072014; }
+.card-title { font-weight:600; font-size:14px; }
+.card-sub { font-size:12px; color: var(--muted); margin-top:2px; }
+
+/* Overlay controls on card */
+.overlay-controls { display:flex; gap:8px; }
+.overlay-controls .action {
+  background:rgba(0,0,0,0.45);
+  color:#fff;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;
+  font-size:12px;
+}
+
+/* Iframe */
+.iframe-wrap { flex:1; margin:10px 0; border-radius:10px; overflow:hidden; border:1px solid var(--border); }
+.iframe-inner { width:100%; height:100%; border:0; transition: transform .2s ease; }
+.iframe-wrap:hover .iframe-inner { transform: scale(1.02); }
+
+/* Modal fullscreen */
+.modal {
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(3,8,15,0.7);backdrop-filter: blur(6px);z-index:60;opacity:0;pointer-events:none;
+  transition:opacity .2s;
+}
+.modal.show { opacity:1; pointer-events:auto; }
+.modal-content {
+  width:95%;max-width:1300px;height:85vh;border-radius:12px;background:var(--bg);
+  border:1px solid rgba(255,255,255,0.05);overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 30px 80px rgba(2,8,20,0.75);
+}
+.modal-top {
+  display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.modal-iframe { flex:1; border:0; width:100%; height:100%; display:block; }
+
+/* Footer */
+footer { margin-top:24px; text-align:center; color: var(--muted); font-size:12px; padding: 24px; }
+footer a { color: var(--accent); text-decoration:none; transition: color 0.2s; }
+footer a:hover { color:#0f75d8; }
+
+/* Fade up animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body class="font-sans">
+
+<!-- Professional Header - Same as index page -->
+<header class="header" role="banner">
+    <div class="header-content">
+        <a href="#" class="brand" aria-label="NeerVerse Home">
+           <img src="logo.png" alt="NeerVerse Logo" class="logo" style="height: 40px; margin-right: 10px;">
+            <span class="brand-text">NeerVerse</span>
+        </a>
+        
+        <nav role="navigation">
+          <ul class="nav-menu">
+            <!-- Added translation attributes to navigation links -->
+            <li><a href="index.html" class="nav-link" data-translate="nav.home">Home</a></li>
+            <li><a href="#Report" class="nav-link" data-translate="nav.report">Report Hazard</a></li>
+            <li><a href="weather.html" class="nav-link" data-translate="nav.maps">Maps</a></li>
+            <li><a href="social.html" class="nav-link" data-translate="nav.social">Social Media</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+            <div class="social-bar">
+                <button class="social-button" aria-label="Twitter" title="Follow us on Twitter">
+                    <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </button>
+                <button class="social-button" aria-label="GitHub" title="View on GitHub">
+                    <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </button>
+                <button class="social-button" aria-label="LinkedIn" title="Connect on LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </button>
+            </div>
+            <div class="auth-group">
+                <!-- Added translation attributes to auth buttons -->
+                <a href="login.html" class="btn btn-text" id="auth-signin-btn" data-translate="nav.signin">Sign in</a>
+                <a href="#getstarted" class="btn btn-primary" id="auth-primary-btn" data-translate="nav.getstarted">Get started</a>
+                <button class="btn btn-text" id="auth-signout-btn" onclick="handleSignOut()" style="display: none;" data-translate="nav.signout">Sign out</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="main-weather-content">
+<section class="hero fade-up" id="home">
+  <h1 data-translate="weather.title">NeerVerse Weather Dashboard</h1>
+  <p data-translate="weather.subtitle">Real-time weather updates, forecasts, and community reports — all in a sleek dark interface.</p>
+</section>
+
+<section class="grid fade-up" id="current">
+  <!-- Card: CHIRPS -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/chirps" data-title="Precipitation  Climate Hazards Group Infrared Precipitation with Station data">
+    <div class="card-header">
+      <div>
+        <div class="chip precip">CH</div>
+        <div class="card-title" >Precipitation   </div>
+        <div class="card-sub" data-translate="weather.chirps.desc">Total precipitation (mm) — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/chirps"></iframe>
+    </div>
+  </article>
+
+  <!-- Card: IMERG -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/imerg" data-title="Max Rainfall Integrated Multi-satellitE Retrievals for the Global Precipitation Measurement">
+    <div class="card-header">
+      <div>
+        <div class="chip imerg">IM</div>
+        <div class="card-title" >Max Rainfall </div>
+        <div class="card-sub" data-translate="weather.imerg.desc">Peak intensity (mm/hr) — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/imerg"></iframe>
+    </div>
+  </article>
+
+  <!-- Card: ERA5 -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/era5" data-title="Temperature">
+    <div class="card-header">
+      <div>
+        <div class="chip temp">T</div>
+        <div class="card-title" >Temperature</div>
+        <div class="card-sub" data-translate="weather.era5.desc">2m temperature (°C) — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/era5"></iframe>
+    </div>
+  </article>
+
+  <!-- Card: SMAP -->
+  <article class="card" data-src="https://vvenoml1106.users.earthengine.app/view/smap" data-title="Soil Moisture Soil Moisture Active Passive">
+    <div class="card-header">
+      <div>
+        <div class="chip smap">SM</div>
+        <div class="card-title" > Soil Moisture</div>
+        <div class="card-sub" data-translate="weather.smap.desc">Mean soil moisture — Monsoon 2024</div>
+      </div>
+      <div class="overlay-controls map-actions">
+        <button class="action" data-action="open" data-translate="weather.fullscreen" title="Open fullscreen">⤢</button>
+        <button class="action" data-action="new" data-translate="weather.newtab" title="Open in new tab">↗</button>
+      </div>
+    </div>
+    <div class="iframe-wrap">
+      <iframe class="iframe-inner lazy-iframe" data-src="https://vvenoml1106.users.earthengine.app/view/smap"></iframe>
+    </div>
+  </article>
+</section>
+</main>
+
+<!-- Fullscreen modal -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <div class="modal-top">
+      <div id="modalTitle" style="font-weight:700">Map</div>
+      <div style="display:flex;gap:8px">
+        <a id="openNewTab" class="btn" href="#" target="_blank" rel="noopener" data-translate="weather.newtab">Open new tab ↗</a>
+        <button id="closeModal" class="btn" data-translate="weather.close">Close ✕</button>
+      </div>
+    </div>
+    <iframe id="modalFrame" class="modal-iframe" src="" title="Expanded map view"></iframe>
+  </div>
+</div>
+
+<footer>
+  <span data-translate="weather.footer">Maps powered by</span> <a href="https://earthengine.google.com" target="_blank" class="small">Google Earth Engine</a>
+</footer>
+
+<!-- Firebase auth integration script - Same as index page -->
+<script>
+    // Handle sign out functionality
+    async function handleSignOut() {
+        const result = await window.firebaseAuth.signOut();
+        if (result.success) {
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+    }
+
+    // Update UI based on auth state when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        // Wait for Firebase auth to initialize
+        setTimeout(() => {
+            const user = window.firebaseAuth?.getStoredUser();
+            updateAuthUI(user);
+        }, 1000);
+    });
+
+    function updateAuthUI(user) {
+        const signInBtn = document.getElementById('auth-signin-btn');
+        const primaryBtn = document.getElementById('auth-primary-btn');
+        const signOutBtn = document.getElementById('auth-signout-btn');
+
+        if (user) {
+            // User is signed in
+            signInBtn.textContent = user.displayName || user.email.split('@')[0];
+            signInBtn.href = '#profile';
+            
+            primaryBtn.textContent = window.translationManager?.translate('nav.dashboard') || 'Dashboard';
+            primaryBtn.href = '#dashboard';
+            
+            signOutBtn.style.display = 'inline-block';
+        } else {
+            // User is signed out
+            signInBtn.textContent = window.translationManager?.translate('nav.signin') || 'Sign in';
+            signInBtn.href = 'login.html';
+            
+            primaryBtn.textContent = window.translationManager?.translate('nav.getstarted') || 'Get started';
+            primaryBtn.href = '#getstarted';
+            
+            signOutBtn.style.display = 'none';
+        }
+    }
+
+    window.addEventListener('languageChanged', () => {
+        const user = window.firebaseAuth?.getStoredUser();
+        updateAuthUI(user);
+    });
+</script>
+
+<script>
+// Lazy load iframes
+document.querySelectorAll('.lazy-iframe').forEach(iframe=>{
+  iframe.src = iframe.dataset.src;
+});
+
+// IntersectionObserver for fade-up animation
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.card, .fade-up').forEach(el=>observer.observe(el));
+
+// Modal functionality
+(function(){
+  const modal = document.getElementById('modal');
+  const modalFrame = document.getElementById('modalFrame');
+  const modalTitle = document.getElementById('modalTitle');
+  const openNewTabLink = document.getElementById('openNewTab');
+  const closeBtn = document.getElementById('closeModal');
+
+  document.addEventListener('click', e=>{
+    const action = e.target.closest('[data-action]');
+    if(!action) return;
+    const card = action.closest('.card');
+    const src = card?.dataset?.src;
+    const title = card?.dataset?.title || 'Map';
+    if(action.dataset.action==='open'){
+      modalFrame.src = src;
+      modalTitle.textContent = title;
+      openNewTabLink.href = src;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+      closeBtn.focus();
+    }
+    else if(action.dataset.action==='new'){
+      window.open(src,'_blank','noopener');
+    }
+  });
+
+  closeBtn.addEventListener('click', ()=>{ 
+    modal.classList.remove('show'); 
+    modal.setAttribute('aria-hidden','true'); 
+    modalFrame.src=''; 
+  });
+  modal.addEventListener('click', ev=>{
+    if(ev.target===modal){
+      modal.classList.remove('show'); 
+      modal.setAttribute('aria-hidden','true'); 
+      modalFrame.src=''; 
+    }
+  });
+  window.addEventListener('keydown', ev=>{
+    if(ev.key==='Escape' && modal.classList.contains('show')){
+      modal.classList.remove('show'); 
+      modal.setAttribute('aria-hidden','true'); 
+      modalFrame.src=''; 
+    }
+  });
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const initTranslations = () => {
+    if (window.translationManager) {
+      // Translation manager is ready, update content
+      window.translationManager.updatePageContent();
+    } else {
+      // Retry after a short delay
+      setTimeout(initTranslations, 100);
+    }
+  };
+  
+  initTranslations();
+});
+</script>
+
+</body>
+</html>
